@@ -1,0 +1,943 @@
+
+<!DOCTYPE html><html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>前端性能优化 - Hexo</title>
+
+  
+    <meta name="description" content="什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。  减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载 使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载 平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘 感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端性能优化">
+<meta property="og:url" content="http://example.com/2024/05/19/performance-optimization/">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。  减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载 使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载 平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘 感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-19T07:49:59.000Z">
+<meta property="article:modified_time" content="2025-12-07T02:52:00.270Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="性能优化">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[]},"dateCreated":"2024-05-19T15:49:59+08:00","dateModified":"2025-12-07T10:52:00+08:00","datePublished":"2024-05-19T15:49:59+08:00","description":"什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。\n\n减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载\n使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载\n平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘\n感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加载动画、进度条、骨架屏等提示信息\n性能测定：性能指标、性能测试、性能监控持续优化\n\n如何进行 Web 性能优化？\n首先需要了解性能指标 - 多快才算快？\n使用专业的工具可量化的评估出网站或应用的性能表现\n然后立足于网站页面响应的生命周期，分析出造成较差性能表现的原因\n最后进行技术改造、可行性分析等具体的优化实践\n迭代优化\n","headline":"前端性能优化","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/05/19/performance-optimization/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[]},"url":"http://example.com/2024/05/19/performance-optimization/","keywords":"性能优化","image":[]}</script>
+  
+</head>
+<body>
+
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">Hexo</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="分类" href="/categories/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="项目" href="/projects/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于我" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="Search"></form><div id="search-result"></div><div class="search-no-result">No Results!</div></div>
+
+
+
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2023/12/26/vue-nextTick/"><span class="title">vue中的nextTick</span></a><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2024/01/23/webpack/"><span class="title">webpack</span></a><a class="item title" href="/2023/08/10/virtual-list/"><span class="title">虚拟列表</span></a><a class="item title" href="/2023/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2024/03/18/vmin/"><span class="title">vmin和vw</span></a><a class="item title" href="/2022/09/19/tree-way-handshake/"><span class="title">三次握手和四次挥手</span></a><a class="item title" href="/2019/12/18/todo/"><span class="title">todo</span></a><a class="item title" href="/2023/12/22/upload-big-file/"><span class="title">前端文件流、切片下载和上传</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">Home</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">Blog</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">Posted on: <time datetime="2024-05-19T07:49:59.000Z">2024-05-19</time></span><span class="sep updated"></span><span class="text updated">Updated on: <time datetime="2025-12-07T02:52:00.270Z">2025-12-07</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>前端性能优化</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="什么是-web-性能？"><a href="#什么是-web-性能？" class="headerlink" title="什么是 web 性能？"></a>什么是 web 性能？</h1><p>MDN 上的 web 性能定义： <strong>Web 性能是网站或应用程序的客观度量和可感知的用户体验</strong>。</p>
+<ul>
+<li><strong>减少整体加载时间</strong>： 减少文件体积、减少 HTTP 请求、使用预加载</li>
+<li><strong>使得网站尽快可用</strong>：仅加载首屏内容，其他内容根据需要进行懒加载</li>
+<li><strong>平滑和交互性</strong>：使用 CSS 替代 JS 动画、减少 UI 重绘</li>
+<li><strong>感知表现</strong>：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加载动画、进度条、骨架屏等提示信息</li>
+<li><strong>性能测定</strong>：性能指标、性能测试、性能监控持续优化</li>
+</ul>
+<h1 id="如何进行-Web-性能优化？"><a href="#如何进行-Web-性能优化？" class="headerlink" title="如何进行 Web 性能优化？"></a>如何进行 Web 性能优化？</h1><ol>
+<li>首先需要了解性能指标 - 多快才算快？</li>
+<li>使用专业的工具可量化的评估出网站或应用的性能表现</li>
+<li>然后立足于网站页面响应的生命周期，分析出造成较差性能表现的原因</li>
+<li>最后进行技术改造、可行性分析等具体的优化实践</li>
+<li>迭代优化</li>
+</ol>
+<span id="more"></span>
+
+<h1 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h1><h2 id="RAIL-性能模型"><a href="#RAIL-性能模型" class="headerlink" title="RAIL 性能模型"></a>RAIL 性能模型</h2><p>R（Response） - 尽快响应用户，应该在 100ms 内快速响应用户输入<br>A（Animation）- 在展示动画的时候，每一帧应该以 16ms 进行响应，避免卡顿<br>I（Idle）- 当使用 JS 主线程的时候，应该把任务划分到执行时间小于 50ms 的片段中去，这样可以释放线程以进行用户交互<br>L（Load）- 应该在小于 1S 的时间内加载完成你的网站，并进行用户交互</p>
+<h2 id="基于用户体验的性能指标"><a href="#基于用户体验的性能指标" class="headerlink" title="基于用户体验的性能指标"></a>基于用户体验的性能指标</h2><h3 id="FCP-（First-Contentful-Paint）-首次内容绘制"><a href="#FCP-（First-Contentful-Paint）-首次内容绘制" class="headerlink" title="FCP （First Contentful Paint） 首次内容绘制"></a>FCP （First Contentful Paint） 首次内容绘制</h3><p>浏览器<strong>首次绘制来自 DOM 的内容的时间</strong>，内容必须是文本、图片（包含背景图）、非白色的 canvas 或 svg，也包括带有正在加载中的 web 字体的文本。</p>
+<blockquote>
+<p>白屏时间在 0-2 秒，属于快速，2-4 秒是中等，超过 4 属于慢。</p>
+</blockquote>
+<h3 id="LCP-（-Largest-Contentful-Paint）-最大内容绘制"><a href="#LCP-（-Largest-Contentful-Paint）-最大内容绘制" class="headerlink" title="LCP （ Largest Contentful Paint） 最大内容绘制"></a>LCP （ Largest Contentful Paint） 最大内容绘制</h3><p>可视区域中最大的内容元素呈现到屏幕上的时间，用以估算页面的主要内容对用户可见时间。</p>
+<blockquote>
+<p>网站应力争使用 2.5 秒或更短的“最大内容绘画”，2.5 - 4 秒是中等，超过 4S 是慢。</p>
+</blockquote>
+<h3 id="FID（-First-Input-Delay）-首次输入延迟"><a href="#FID（-First-Input-Delay）-首次输入延迟" class="headerlink" title="FID（ First Input Delay） 首次输入延迟"></a>FID（ First Input Delay） 首次输入延迟</h3><p>从用户第一次与页面交互（例如单击链接、点击按钮等）到浏览器实际能够响应应该交互的时间<br>输入延迟是因为浏览器的主线程正忙于做其他事情，所以不能响应用户。发生这种情况的一个常见原因是浏览器正忙于解析和执行应用程序加载的大量计算的 JS。</p>
+<blockquote>
+<p>100ms 内是快，100-300ms 是中等，大于 300ms 是慢</p>
+</blockquote>
+<h3 id="TTI-Time-to-Interactive"><a href="#TTI-Time-to-Interactive" class="headerlink" title="TTI (Time to Interactive)"></a>TTI (Time to Interactive)</h3><p>网页<strong>第一次完成达到可交互状态的时间点</strong>，浏览器已经可以持续性的响应用户的输入。完全达到可交互状态的时间点是在最后一个长任务完成的时间，并且在随后的 5 秒内网络和主线程是空闲的。</p>
+<blockquote>
+<p>超过 50ms 的任务是长任务，0-3.8 是快，3.9-7.3S 是中等，7.3S 以上是慢。</p>
+</blockquote>
+<h3 id="TBT-Total-Block-Time-总阻塞时间"><a href="#TBT-Total-Block-Time-总阻塞时间" class="headerlink" title="TBT (Total Block Time) 总阻塞时间"></a>TBT (Total Block Time) 总阻塞时间</h3><p>度量 FCP 和 TTI 之间的总时间。</p>
+<blockquote>
+<p>0-300：快； 300-600：中等； &gt;600：慢</p>
+</blockquote>
+<h3 id="CLS-（Cumulative-Layout-Shift）-累计布局偏移"><a href="#CLS-（Cumulative-Layout-Shift）-累计布局偏移" class="headerlink" title="CLS （Cumulative Layout Shift） 累计布局偏移"></a>CLS （Cumulative Layout Shift） 累计布局偏移</h3><p>CLS 会测量在页面整个生命周期中发生的每个意外的布局移位的所有单独布局移位分数的总和，它是一种保证页面的视觉稳定性从而提升用户体验的指标方案。</p>
+<blockquote>
+<p>0-0.1：快； 0.1-0.25： 中等； &gt;0.25：慢</p>
+</blockquote>
+<h2 id="Web-Vitals"><a href="#Web-Vitals" class="headerlink" title="Web Vitals"></a>Web Vitals</h2><p>Web Vitals 是一组统一的质量衡量指标 - Core Web Vitals,其中包括加载体验、交互性和页面内容的视觉稳定性。这是 Google 提出的，可以节省学习成本和时间，不需要学习其他诸多的指标。</p>
+<p>将其他很多性能指标简化成这三个指标： <strong>FCP、LID、CLS</strong></p>
+<h1 id="web-性能测试"><a href="#web-性能测试" class="headerlink" title="web 性能测试"></a>web 性能测试</h1><h2 id="灯塔-Lighthouse"><a href="#灯塔-Lighthouse" class="headerlink" title="灯塔 Lighthouse"></a>灯塔 Lighthouse</h2><p>可以打开浏览器开发者工具调试，会给出分数，分析报告，和推荐解决方案。这个分数不一定准确，有时候受网络和硬件设备影响，并且要设置清除缓存。</p>
+<h2 id="WebPageTest"><a href="#WebPageTest" class="headerlink" title="WebPageTest"></a>WebPageTest</h2><p>是一个在线网站测试工具，<a target="_blank" rel="noopener" href="https://www.webpagetest.org/%E3%80%82%E8%BE%93%E5%85%A5%E7%BD%91%E7%AB%99%E7%BD%91%E5%9D%80%EF%BC%8C%E5%9C%A8%E4%BA%91%E7%AB%AF%E6%B5%8B%E8%AF%95%EF%BC%8C%E6%94%AF%E6%8C%81%E5%A4%9A%E5%9C%B0%E5%8C%BA%E3%80%81%E6%B5%8F%E8%A7%88%E5%99%A8%E3%80%81%E8%AE%BE%E5%A4%87%E6%B5%8B%E8%AF%95%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%AE%BE%E7%BD%AE%E7%BD%91%E7%BB%9C%E9%80%9F%E5%BA%A6%EF%BC%8C%E5%88%86%E8%BE%A8%E7%8E%87%E3%80%81%E6%B5%8B%E8%AF%95%E6%AC%A1%E6%95%B0%E7%AD%89%E7%AD%89%EF%BC%8C%E4%BC%9A%E7%BB%99%E5%87%BA%E4%B8%80%E4%B8%AA%E5%BE%88%E8%AF%A6%E7%BB%86%E7%9A%84%E6%8A%A5%E5%91%8A%E3%80%82">https://www.webpagetest.org/。输入网站网址，在云端测试，支持多地区、浏览器、设备测试，可以设置网络速度，分辨率、测试次数等等，会给出一个很详细的报告。</a></p>
+<h2 id="Chrome-DevTool"><a href="#Chrome-DevTool" class="headerlink" title="Chrome DevTool"></a>Chrome DevTool</h2><h1 id="前端页面的生命周期"><a href="#前端页面的生命周期" class="headerlink" title="前端页面的生命周期"></a>前端页面的生命周期</h1><h1 id="如何缩短首屏速度？"><a href="#如何缩短首屏速度？" class="headerlink" title="如何缩短首屏速度？"></a>如何缩短首屏速度？</h1><h2 id="效果比较好的操作"><a href="#效果比较好的操作" class="headerlink" title="效果比较好的操作"></a>效果比较好的操作</h2><ol>
+<li>减少首屏资源体积</li>
+</ol>
+<ul>
+<li>打包工具的压缩</li>
+<li>异步加载（分析能够异步加载的，比较体积大，但又不是马上需要的功能，和首屏渲染没关系）</li>
+<li>更新为体积更小的新版本（把一些老版本的库替换成新版本的支持 tree-shaking）</li>
+<li>编写代码尽量减少体积</li>
+<li>去除大的 base64 体积（打包工具默认将图片转成 base64，小图片可以转，但是 大图片和媒体资源 建议不要转成 base64）</li>
+<li>能不用第三方库就不用第三方库（eg:时间格式化）</li>
+</ul>
+<h2 id="效果不太好或者在特殊情况下的优化操作"><a href="#效果不太好或者在特殊情况下的优化操作" class="headerlink" title="效果不太好或者在特殊情况下的优化操作"></a>效果不太好或者在特殊情况下的优化操作</h2><ol>
+<li>首屏数据尽量并行，如果可行让小数据量接口合并到其他接口</li>
+<li>页面包含大量 dom 可以分批随滚动渲染</li>
+<li>骨架屏，loading，先让屏幕不白，减少用户焦虑</li>
+</ol>
+<h1 id="操作速度和渲染速度"><a href="#操作速度和渲染速度" class="headerlink" title="操作速度和渲染速度"></a>操作速度和渲染速度</h1><p>什么情况下会造成操作卡顿和渲染慢？</p>
+<h2 id="1-一次性-操作大量"><a href="#1-一次性-操作大量" class="headerlink" title="1. 一次性 操作大量"></a>1. 一次性 操作大量</h2><p>长列表渲染和异步渲染</p>
+<h3 id="长列表渲染"><a href="#长列表渲染" class="headerlink" title="长列表渲染"></a>长列表渲染</h3><ol>
+<li>虚拟化列表技术<br>只渲染可见区域的数据项，而不是渲染整个列表</li>
+<li>分页加载<br>将长列表分割成多个页面，一次性只加载当前页面的数据，而不是全部数据。当用户滚动或者翻页时，再加载下一页的数据</li>
+<li>使用列表项重用<br>保持列表项的可重用性，避免频繁地创建和销毁 DOM 元素。这可以通过使用列表项池来维护已渲染的列表项，然后根据需要更新其内容。</li>
+</ol>
+<h3 id="异步渲染"><a href="#异步渲染" class="headerlink" title="异步渲染"></a>异步渲染</h3><h4 id="1-prefetch-加载"><a href="#1-prefetch-加载" class="headerlink" title="1. prefetch 加载"></a>1. prefetch 加载</h4><p>假设 page1,page2 是同步加载，page3 是异步加载（prefetch）,首屏打开都会给这个三个创建 link 标签加载，但是没用标记 prefetch 的 link 会先加载，然后首屏展示完之后，再加载 prefetch 资源</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/&quot;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Home&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="title class_">Home</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/about&quot;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;About&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">import</span>(<span class="string">&quot;../views/About.vue&quot;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>如果将网速调慢， 从 network 中也可以看出来，虽然先创建了 about.js 请求，但是需要等其他的请求完成之后再加载的 about</p>
+<h4 id="2-script-加载"><a href="#2-script-加载" class="headerlink" title="2. script 加载"></a>2. script 加载</h4><p>App.js（page1,page2）-&gt;首页加载完成-&gt;进入 page3-&gt;执行 js，创建一个 script 标签引入 page3 相关 js-&gt;page3.js-&gt;page3 页面看到</p>
+<h4 id="prefetch-和-script-加载-对比："><a href="#prefetch-和-script-加载-对比：" class="headerlink" title="prefetch 和 script 加载 对比："></a>prefetch 和 script 加载 对比：</h4><p><strong>script 加载</strong>:</p>
+<ol>
+<li>做到了充分按需引入，用到的时候在加载，不用永不加载，充分节省了带宽</li>
+<li>最大问题是，切换需要等待，体验不是很流畅</li>
+</ol>
+<p><strong>prefetch 加载</strong>:</p>
+<ol>
+<li>充分利用使用者不占用带宽的浏览时间，切换到异步加载的页面是可能早已经加载好的，用户体验更流畅</li>
+<li>一些本次行为不会打开的页面也会加载，一定程度上浪费了带宽</li>
+</ol>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><ol>
+<li>按需引入 <code>import &#123;read, utils&#125; from &#39;xlsx&#39; </code></li>
+<li>一些非马上使用的操作，改成异步</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">change</span>(<span class="params"></span>)&#123;</span><br><span class="line">   <span class="keyword">import</span>(<span class="string">&#x27;jquery&#x27;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">      <span class="keyword">let</span> $=res.<span class="property">default</span></span><br><span class="line">      <span class="keyword">let</span> a =$(<span class="string">&#x27;.test&#x27;</span>)</span><br><span class="line">      a.<span class="title function_">html</span>(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">   &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-利用-setTimeout-或-requestAnimationFrame"><a href="#3-利用-setTimeout-或-requestAnimationFrame" class="headerlink" title="3. 利用 setTimeout 或 requestAnimationFrame"></a>3. 利用 setTimeout 或 requestAnimationFrame</h4><p>在渲染大量数据时，可以使用 <code>setTimeout</code> 或 <code>requestAnimationFrame</code> 来将渲染任务分解成多个小任务，并给浏览器一些空闲时间来处理其他任务，从而减少卡顿和提高渲染性能。</p>
+<h4 id="4-使用-Web-Workers"><a href="#4-使用-Web-Workers" class="headerlink" title="4. 使用 Web Workers"></a>4. 使用 Web Workers</h4><p>可以将一些耗时的计算或处理任务放在 <code>Web Workers</code> 中进行，以避免阻塞主线程，从而提高页面的响应性能</p>
+<h4 id="5-懒加载"><a href="#5-懒加载" class="headerlink" title="5. 懒加载"></a>5. 懒加载</h4><p>对于某些不是立即需要的数据或组件，可以延迟加载，直到用户需要时再进行加载和渲染。这可以通过 React 中的 <code>React.lazy()</code> 和 Vue 中的 <code>vue-router</code> 的懒加载功能来实现。</p>
+<h4 id="6-使用分片加载"><a href="#6-使用分片加载" class="headerlink" title="6. 使用分片加载"></a>6. 使用分片加载</h4><p>对于大型数据集，可以将数据分成多个片段进行加载，并在每个片段加载完成后进行渲染。这样可以降低单次操作的负担，提高渲染的效率</p>
+<h2 id="2-进行了复杂度高的运算（eg-循环）"><a href="#2-进行了复杂度高的运算（eg-循环）" class="headerlink" title="2. 进行了复杂度高的运算（eg:循环）"></a>2. 进行了复杂度高的运算（eg:循环）</h2><p>循环中操作尽量精简（可能效果不明显）</p>
+<h2 id="3-vue-和-react-项目中，不必要的渲染太多"><a href="#3-vue-和-react-项目中，不必要的渲染太多" class="headerlink" title="3. vue 和 react 项目中，不必要的渲染太多"></a>3. vue 和 react 项目中，不必要的渲染太多</h2><h3 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h3><p>vue 中有依赖收集， 配合上 vue3 的静态节点标记，已经基本上避免了因为数据改变引起的无意义渲染</p>
+<ol>
+<li>频繁切换的显隐内容用 <code>v-show</code> 也就是 display 来控制隐藏，只有打开就一次性决定显示与否的用 <code>v-if</code> 不去创建</li>
+<li>循环，动态切换内容加好 key 值</li>
+<li>keep-alive 缓存</li>
+<li>区分请求粒度，减少请求范围，也能减少更新</li>
+</ol>
+<h3 id="react"><a href="#react" class="headerlink" title="react"></a>react</h3><ol>
+<li><code>PureComponent</code> 或 <code>React.memo</code>来减少不必要的重新渲染</li>
+<li>通过实现<code>shouldComponentUpdate</code>生命周期方法来手动控制是否进行组件重新渲染。</li>
+<li>避免在<code>render</code>方法中直接修改 state 或 props，因为这会触发组件的重新渲染。而是应该使用<code>setState</code>来更新<code>state</code>。</li>
+<li>避免在渲染函数中执行昂贵的操作，例如大量计算、数据请求等，这会影响渲染性能。可以将这些操作移到生命周期方法中，或者使用异步渲染技术进行优化。</li>
+</ol>
+<h1 id="数据缓存"><a href="#数据缓存" class="headerlink" title="数据缓存"></a>数据缓存</h1><ul>
+<li>不变数据，定期时效可以缓存在 <code>cookies</code> 或者 <code>localStorage</code> 中，比如 token,用户名</li>
+<li>可以考虑做一个缓存队列，存于内存中（全局对象，vuex）。这样能保证刷新就更新数据，也能一定程度上缓存数据</li>
+</ul>
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>License</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">Newer</div><a href="/2024/05/27/message-push/">实时消息推送的方案</a></div><div class="item" id="next"><div class="note">Older</div><a href="/2024/03/31/snake/">JS实现贪吃蛇游戏</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">John Doe</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">On This Page</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-web-%E6%80%A7%E8%83%BD%EF%BC%9F"><span class="toc-text">什么是 web 性能？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C-Web-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="toc-text">如何进行 Web 性能优化？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E6%A0%87"><span class="toc-text">指标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RAIL-%E6%80%A7%E8%83%BD%E6%A8%A1%E5%9E%8B"><span class="toc-text">RAIL 性能模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-text">基于用户体验的性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FCP-%EF%BC%88First-Contentful-Paint%EF%BC%89-%E9%A6%96%E6%AC%A1%E5%86%85%E5%AE%B9%E7%BB%98%E5%88%B6"><span class="toc-text">FCP （First Contentful Paint） 首次内容绘制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LCP-%EF%BC%88-Largest-Contentful-Paint%EF%BC%89-%E6%9C%80%E5%A4%A7%E5%86%85%E5%AE%B9%E7%BB%98%E5%88%B6"><span class="toc-text">LCP （ Largest Contentful Paint） 最大内容绘制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FID%EF%BC%88-First-Input-Delay%EF%BC%89-%E9%A6%96%E6%AC%A1%E8%BE%93%E5%85%A5%E5%BB%B6%E8%BF%9F"><span class="toc-text">FID（ First Input Delay） 首次输入延迟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TTI-Time-to-Interactive"><span class="toc-text">TTI (Time to Interactive)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TBT-Total-Block-Time-%E6%80%BB%E9%98%BB%E5%A1%9E%E6%97%B6%E9%97%B4"><span class="toc-text">TBT (Total Block Time) 总阻塞时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CLS-%EF%BC%88Cumulative-Layout-Shift%EF%BC%89-%E7%B4%AF%E8%AE%A1%E5%B8%83%E5%B1%80%E5%81%8F%E7%A7%BB"><span class="toc-text">CLS （Cumulative Layout Shift） 累计布局偏移</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Web-Vitals"><span class="toc-text">Web Vitals</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#web-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-text">web 性能测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%81%AF%E5%A1%94-Lighthouse"><span class="toc-text">灯塔 Lighthouse</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebPageTest"><span class="toc-text">WebPageTest</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chrome-DevTool"><span class="toc-text">Chrome DevTool</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">前端页面的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%BC%A9%E7%9F%AD%E9%A6%96%E5%B1%8F%E9%80%9F%E5%BA%A6%EF%BC%9F"><span class="toc-text">如何缩短首屏速度？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E6%AF%94%E8%BE%83%E5%A5%BD%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-text">效果比较好的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E4%B8%8D%E5%A4%AA%E5%A5%BD%E6%88%96%E8%80%85%E5%9C%A8%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E4%BC%98%E5%8C%96%E6%93%8D%E4%BD%9C"><span class="toc-text">效果不太好或者在特殊情况下的优化操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E9%80%9F%E5%BA%A6%E5%92%8C%E6%B8%B2%E6%9F%93%E9%80%9F%E5%BA%A6"><span class="toc-text">操作速度和渲染速度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%80%E6%AC%A1%E6%80%A7-%E6%93%8D%E4%BD%9C%E5%A4%A7%E9%87%8F"><span class="toc-text">1. 一次性 操作大量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%BF%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93"><span class="toc-text">长列表渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E6%B8%B2%E6%9F%93"><span class="toc-text">异步渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-prefetch-%E5%8A%A0%E8%BD%BD"><span class="toc-text">1. prefetch 加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-script-%E5%8A%A0%E8%BD%BD"><span class="toc-text">2. script 加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#prefetch-%E5%92%8C-script-%E5%8A%A0%E8%BD%BD-%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-text">prefetch 和 script 加载 对比：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-text">优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%88%A9%E7%94%A8-setTimeout-%E6%88%96-requestAnimationFrame"><span class="toc-text">3. 利用 setTimeout 或 requestAnimationFrame</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-Web-Workers"><span class="toc-text">4. 使用 Web Workers</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="toc-text">5. 懒加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E4%BD%BF%E7%94%A8%E5%88%86%E7%89%87%E5%8A%A0%E8%BD%BD"><span class="toc-text">6. 使用分片加载</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AB%98%E7%9A%84%E8%BF%90%E7%AE%97%EF%BC%88eg-%E5%BE%AA%E7%8E%AF%EF%BC%89"><span class="toc-text">2. 进行了复杂度高的运算（eg:循环）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-vue-%E5%92%8C-react-%E9%A1%B9%E7%9B%AE%E4%B8%AD%EF%BC%8C%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E6%B8%B2%E6%9F%93%E5%A4%AA%E5%A4%9A"><span class="toc-text">3. vue 和 react 项目中，不必要的渲染太多</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vue"><span class="toc-text">vue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#react"><span class="toc-text">react</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BC%93%E5%AD%98"><span class="toc-text">数据缓存</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>Scroll to Top</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `Just`,
+      min: `minutes ago`,
+      hour: `hours ago`,
+      day: `days ago`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `Switched to Light Mode`,
+      dark: `Switched to Dark Mode`,
+      auto: `Switched to Auto Mode`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
