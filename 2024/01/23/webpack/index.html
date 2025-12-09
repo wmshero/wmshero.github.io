@@ -17,21 +17,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>webpack - 王美</title>
+  <title>Webpack的核心工作流程是怎样的?Loader 和 Plugin 的区别是什么? 如何提升 webpack 的构造性能? - 小王说</title>
 
   
-    <meta name="description" content="如何提升 webpack 的构造性能1. speed-measure-webpack-plugin优化你的 webpack 构建速度的第一步是要知道你应该把注意力集中在哪里，在这里推荐一个插件：speed-measure-webpack-plugin，这个插件可以测量你的 webpack 构建速度">
+    <meta name="description" content="核心工作流程Webpack 作为一个强大的模块打包工具，其核心工作流程可以看作是一部精心编排的交响乐，而 Loader 和 Plugin则是其中的两大核心乐器。 整个流程始于一个或多个入口(Entry)文件。Webpack从入口出发，递归地解析代码中的 import 和require 语句，构建出一张包含所有模块及其相互关系的依赖图(Dependency Graph)。 loader在这个构建依赖">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webpack">
+<meta property="og:title" content="Webpack的核心工作流程是怎样的?Loader 和 Plugin 的区别是什么? 如何提升 webpack 的构造性能?">
 <meta property="og:url" content="http://example.com/2024/01/23/webpack/">
-<meta property="og:site_name" content="王美">
-<meta property="og:description" content="如何提升 webpack 的构造性能1. speed-measure-webpack-plugin优化你的 webpack 构建速度的第一步是要知道你应该把注意力集中在哪里，在这里推荐一个插件：speed-measure-webpack-plugin，这个插件可以测量你的 webpack 构建速度">
+<meta property="og:site_name" content="小王说">
+<meta property="og:description" content="核心工作流程Webpack 作为一个强大的模块打包工具，其核心工作流程可以看作是一部精心编排的交响乐，而 Loader 和 Plugin则是其中的两大核心乐器。 整个流程始于一个或多个入口(Entry)文件。Webpack从入口出发，递归地解析代码中的 import 和require 语句，构建出一张包含所有模块及其相互关系的依赖图(Dependency Graph)。 loader在这个构建依赖">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
 <meta property="article:published_time" content="2024-01-23T08:56:45.000Z">
-<meta property="article:modified_time" content="2025-12-07T02:52:00.279Z">
+<meta property="article:modified_time" content="2025-12-09T08:30:45.208Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
   
   
   
@@ -47,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[]},"dateCreated":"2024-01-23T16:56:45+08:00","dateModified":"2025-12-07T10:52:00+08:00","datePublished":"2024-01-23T16:56:45+08:00","description":"如何提升 webpack 的构造性能1. speed-measure-webpack-plugin优化你的 webpack 构建速度的第一步是要知道你应该把注意力集中在哪里，在这里推荐一个插件：speed-measure-webpack-plugin，这个插件可以测量你的 webpack 构建速度","headline":"webpack","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/01/23/webpack/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[]},"url":"http://example.com/2024/01/23/webpack/","keywords":"webpack","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg"},"dateCreated":"2024-01-23T16:56:45+08:00","dateModified":"2025-12-09T16:30:45+08:00","datePublished":"2024-01-23T16:56:45+08:00","description":"核心工作流程Webpack 作为一个强大的模块打包工具，其核心工作流程可以看作是一部精心编排的交响乐，而 Loader 和 Plugin则是其中的两大核心乐器。\n整个流程始于一个或多个入口(Entry)文件。Webpack从入口出发，递归地解析代码中的 import 和require 语句，构建出一张包含所有模块及其相互关系的依赖图(Dependency Graph)。\nloader在这个构建依赖图的过程中，Loader 扮演了翻译官的角色。Webpack 原生只理解 JavaScript 和 JSON 文件。当它遇到如.scss、.tsx、.png 等非 JavaScript 类型的文件时，就会查找匹配的 Loader。Loader 的职责就是将这些文件转换成 Webpack 能够理解和处理的有效模块。例如，babel-loader 将ES6+ 语法转译为 ES5，css-loader 解析 CSS 文件。Loader 的作用域是单个文件，它在模块加载的环节执行。\nplugin当所有模块都被 Loader 成功“翻译”后，Plugin 便登上了舞台。Plugin 是架构师，它不直接操作单个文件，而是深入到 Webpack 编译的整个生命周期中。通过监听 Webpack广播出的事件钩子，Plugin 可以在打包过程的特定时刻执行广泛的任务，从而实现对打包结果的自定义和优化。比如,Htmlwebpackplugin 可以在打包结束后自动生成个 HTML 文件并注入打包好的脚本， TerserwebpackPlugin 则负责在最终输出前对代码进行压缩。\n\n简而言之，Loader 负责内容的转换，Plugin 负责流程的扩展。前者是输入到输出的管道，后者是整个构建过程的控制器。\n\n如何提升 webpack 的构造性能1. speed-measure-webpack-plugin优化你的 webpack 构建速度的第一步是要知道你应该把注意力集中在哪里，在这里推荐一个插件：speed-measure-webpack-plugin，这个插件可以测量你的 webpack 构建速度。","headline":"Webpack的核心工作流程是怎样的?Loader 和 Plugin 的区别是什么? 如何提升 webpack 的构造性能?","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/01/23/webpack/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg","logo":{"@type":"ImageObject","url":"/images/avatar.jpg"}},"url":"http://example.com/2024/01/23/webpack/","keywords":"webpack","image":[]}</script>
   
 </head>
 <body>
@@ -55,7 +57,7 @@
 <div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">王美</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">小王说</div></a></div></header>
 
 <div class="nav-area">
 
@@ -66,7 +68,7 @@
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2023/12/26/vue-nextTick/"><span class="title">vue中的nextTick</span></a><a class="item title" href="/2024/01/23/webpack/"><span class="title">webpack</span></a><a class="item title" href="/2023/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2023/08/10/virtual-list/"><span class="title">虚拟列表</span></a><a class="item title" href="/2024/03/18/vmin/"><span class="title">vmin和vw</span></a><a class="item title" href="/2022/09/19/tree-way-handshake/"><span class="title">三次握手和四次挥手</span></a><a class="item title" href="/2019/12/18/todo/"><span class="title">todo</span></a><a class="item title" href="/2023/12/22/upload-big-file/"><span class="title">前端文件流、切片下载和上传</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2025/12/09/react-hook/"><span class="title">React Hooks 的实现原理是什么?为什么 Hooks不能在条件语句或循环中使用?</span></a><a class="item title" href="/2024/05/19/performance-optimization/"><span class="title">前端性能优化</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2024/02/19/ModularDevelopmentHistory/"><span class="title">模块化发展历程</span></a><a class="item title" href="/2024/02/20/hot-module-replacement/"><span class="title">webpack的热更新原理</span></a><a class="item title" href="/2023/11/19/CICD/"><span class="title">CI/CD</span></a><a class="item title" href="/2024/02/25/ci-npm/"><span class="title">CI环境下的npm优化及工程化问题解析</span></a><a class="item title" href="/2024/03/10/asset-module/"><span class="title">Asset Modules资源模块</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -78,19 +80,26 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-01-23T08:56:45.000Z">2024-01-23</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-07T02:52:00.279Z">2025-12-07</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-01-23T08:56:45.000Z">2024-01-23</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-09T08:30:45.208Z">2025-12-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>webpack</span></h1>
+        <h1 class="text title"><span>Webpack的核心工作流程是怎样的?Loader 和 Plugin 的区别是什么? 如何提升 webpack 的构造性能?</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h1 id="如何提升-webpack-的构造性能"><a href="#如何提升-webpack-的构造性能" class="headerlink" title="如何提升 webpack 的构造性能"></a>如何提升 webpack 的构造性能</h1><h2 id="1-speed-measure-webpack-plugin"><a href="#1-speed-measure-webpack-plugin" class="headerlink" title="1. speed-measure-webpack-plugin"></a>1. speed-measure-webpack-plugin</h2><p>优化你的 webpack 构建速度的第一步是要知道你应该把注意力集中在哪里，在这里推荐一个插件：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/speed-measure-webpack-plugin">speed-measure-webpack-plugin</a>，这个插件可以测量你的 webpack 构建速度</p>
+  </div><article class="md-text content"><h3 id="核心工作流程"><a href="#核心工作流程" class="headerlink" title="核心工作流程"></a>核心工作流程</h3><p>Webpack 作为一个强大的模块打包工具，其核心工作流程可以看作是一部精心编排的交响乐，而 Loader 和 Plugin则是其中的两大核心乐器。</p>
+<p><strong>整个流程始于一个或多个入口(Entry)文件。Webpack从入口出发，递归地解析代码中的 <code>import</code> 和<code>require</code> 语句，构建出一张包含所有模块及其相互关系的依赖图</strong>(Dependency Graph)。</p>
+<h4 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h4><p>在这个构建依赖图的过程中，<code>Loader</code> 扮演了翻译官的角色。Webpack 原生只理解 <code>JavaScript</code> 和 <code>JSON</code> 文件。当它遇到如<code>.scss、.tsx、.png</code> 等非 <code>JavaScript</code> 类型的文件时，就会查找匹配的 <code>Loader</code>。<code>Loader</code> 的职责就是将这些文件转换成 <code>Webpack</code> 能够理解和处理的有效模块。例如，<code>babel-loader</code> 将<code>ES6+</code> 语法转译为 <code>ES5</code>，<code>css-loader</code> 解析 <code>CSS</code> 文件。<code>Loader</code> 的作用域是单个文件，它在模块加载的环节执行。</p>
+<h4 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h4><p>当所有模块都被 <code>Loader</code> 成功“翻译”后，<code>Plugin</code> 便登上了舞台。<code>Plugin</code> 是架构师，它不直接操作单个文件，而是深入到 <code>Webpack</code> 编译的整个生命周期中。通过监听 <code>Webpack</code>广播出的事件钩子，<code>Plugin</code> 可以在打包过程的特定时刻执行广泛的任务，从而实现对打包结果的自定义和优化。比如,<code>Htmlwebpackplugin</code> 可以在打包结束后自动生成个 <code>HTML</code> 文件并注入打包好的脚本， <code>TerserwebpackPlugin</code> 则负责在最终输出前对代码进行压缩。</p>
+<blockquote>
+<p>简而言之，Loader 负责内容的转换，Plugin 负责流程的扩展。前者是输入到输出的管道，后者是整个构建过程的控制器。</p>
+</blockquote>
+<h3 id="如何提升-webpack-的构造性能"><a href="#如何提升-webpack-的构造性能" class="headerlink" title="如何提升 webpack 的构造性能"></a>如何提升 webpack 的构造性能</h3><h4 id="1-speed-measure-webpack-plugin"><a href="#1-speed-measure-webpack-plugin" class="headerlink" title="1. speed-measure-webpack-plugin"></a>1. speed-measure-webpack-plugin</h4><p>优化你的 <code>webpack</code> 构建速度的第一步是要知道你应该把注意力集中在哪里，在这里推荐一个插件：<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/speed-measure-webpack-plugin">speed-measure-webpack-plugin</a>，这个插件可以测量你的 webpack 构建速度。</p>
 <span id="more"></span>
 
 <h3 id="install"><a href="#install" class="headerlink" title="install"></a>install</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev speed-measure-webpack-plugin</span><br></pre></td></tr></table></figure>
@@ -103,13 +112,13 @@
 <p>to</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">SpeedMeasurePlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;speed-measure-webpack-plugin&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> smp = <span class="keyword">new</span> <span class="title class_">SpeedMeasurePlugin</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = smp.<span class="title function_">wrap</span>(&#123;</span><br><span class="line">  <span class="attr">plugins</span>: [<span class="keyword">new</span> <span class="title class_">MyPlugin</span>(), <span class="keyword">new</span> <span class="title class_">MyOtherPlugin</span>()],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-更快的-loader：swc"><a href="#2-更快的-loader：swc" class="headerlink" title="2. 更快的 loader：swc"></a>2. 更快的 loader：swc</h2><p>在 webpack 中耗时最久的当属负责 AST 转换的 loader。我们可以使用速度更快的<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/swc-loader">swc</a></p>
+<h4 id="2-更快的-loader：swc"><a href="#2-更快的-loader：swc" class="headerlink" title="2. 更快的 loader：swc"></a>2. 更快的 loader：swc</h4><p>在 webpack 中耗时最久的当属负责 <code>AST</code> 转换的 <code>loader</code>。我们可以使用速度更快的<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/swc-loader">swc</a></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">module</span>: &#123;</span><br><span class="line">  <span class="attr">rules</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">test</span>: <span class="regexp">/\.m?js$/</span>,</span><br><span class="line">      <span class="attr">exclude</span>: <span class="regexp">/(node_modules|bower_components)/</span>,</span><br><span class="line">      <span class="attr">use</span>: &#123;</span><br><span class="line">        <span class="comment">// Use `.swcrc` to configure swc</span></span><br><span class="line">        <span class="attr">loader</span>: <span class="string">&quot;swc-loader&quot;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  ];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="如何配置-swc"><a href="#如何配置-swc" class="headerlink" title="如何配置 swc"></a>如何配置 swc</h3><p>SWC can be configured with an .swcrc file.</p>
+<h5 id="如何配置-swc"><a href="#如何配置-swc" class="headerlink" title="如何配置 swc"></a>如何配置 swc</h5><p>SWC can be configured with an <code>.swcrc</code> file.</p>
 <p>this is <a target="_blank" rel="noopener" href="https://www.swc.net.cn/docs/configuration/swcrc">Compilation</a></p>
 <p>如果你是使用的 babel,swc 官方网站拥有提供从 babel 迁移到 swc 的<a target="_blank" rel="noopener" href="https://swc.rs/docs/migrating-from-babel">指南</a></p>
-<h2 id="3-持久化缓存：cache"><a href="#3-持久化缓存：cache" class="headerlink" title="3. 持久化缓存：cache"></a>3. 持久化缓存：cache</h2><p>webpack5 内置了关于缓存的插件，可以通过配置来开启，它将<code>Module</code>、<code>Chunk</code>、<code>ModuleChunk</code>等信息序列化到磁盘中，二次构建避免重复编译计算，编译速度得到很大的提升</p>
+<h4 id="3-持久化缓存：cache"><a href="#3-持久化缓存：cache" class="headerlink" title="3. 持久化缓存：cache"></a>3. 持久化缓存：cache</h4><p>webpack5 内置了关于缓存的插件，可以通过配置来开启，它将<code>Module</code>、<code>Chunk</code>、<code>ModuleChunk</code>等信息序列化到磁盘中，二次构建避免重复编译计算，编译速度得到很大的提升</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">cache</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&quot;filesystem&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>当开启了持久化缓存功能，最耗时的 AST 解析将能够从磁盘的缓存中获取，再次编译时无需再次进行解析 AST。</p>
@@ -138,7 +147,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%8F%90%E5%8D%87-webpack-%E7%9A%84%E6%9E%84%E9%80%A0%E6%80%A7%E8%83%BD"><span class="toc-text">如何提升 webpack 的构造性能</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-speed-measure-webpack-plugin"><span class="toc-text">1. speed-measure-webpack-plugin</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#install"><span class="toc-text">install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95"><span class="toc-text">用法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9B%B4%E5%BF%AB%E7%9A%84-loader%EF%BC%9Aswc"><span class="toc-text">2. 更快的 loader：swc</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE-swc"><span class="toc-text">如何配置 swc</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%8C%81%E4%B9%85%E5%8C%96%E7%BC%93%E5%AD%98%EF%BC%9Acache"><span class="toc-text">3. 持久化缓存：cache</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">核心工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#loader"><span class="toc-text">loader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#plugin"><span class="toc-text">plugin</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%8F%90%E5%8D%87-webpack-%E7%9A%84%E6%9E%84%E9%80%A0%E6%80%A7%E8%83%BD"><span class="toc-text">如何提升 webpack 的构造性能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-speed-measure-webpack-plugin"><span class="toc-text">1. speed-measure-webpack-plugin</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#install"><span class="toc-text">install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95"><span class="toc-text">用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%9B%B4%E5%BF%AB%E7%9A%84-loader%EF%BC%9Aswc"><span class="toc-text">2. 更快的 loader：swc</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE-swc"><span class="toc-text">如何配置 swc</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8C%81%E4%B9%85%E5%8C%96%E7%BC%93%E5%AD%98%EF%BC%9Acache"><span class="toc-text">3. 持久化缓存：cache</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>

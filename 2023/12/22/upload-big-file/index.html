@@ -17,22 +17,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>前端文件流、切片下载和上传 - 王美</title>
+  <title>前端文件流、切片下载和上传 - 小王说</title>
 
   
     <meta name="description" content="一、前端文件流操作下面创建一个 fileUpload 的函数式组件，当用户选择文件时，通过FileReader将文件内容读取为 ArrayButter,然后将ArrayBuffer转换为十六进制字符串，并将结果显示在页面上。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端文件流、切片下载和上传">
 <meta property="og:url" content="http://example.com/2023/12/22/upload-big-file/">
-<meta property="og:site_name" content="王美">
+<meta property="og:site_name" content="小王说">
 <meta property="og:description" content="一、前端文件流操作下面创建一个 fileUpload 的函数式组件，当用户选择文件时，通过FileReader将文件内容读取为 ArrayButter,然后将ArrayBuffer转换为十六进制字符串，并将结果显示在页面上。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
 <meta property="article:published_time" content="2023-12-22T02:24:03.000Z">
 <meta property="article:modified_time" content="2025-12-07T02:52:00.277Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="JS">
 <meta property="article:tag" content="优化">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
   
   
   
@@ -48,7 +50,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[]},"dateCreated":"2023-12-22T10:24:03+08:00","dateModified":"2025-12-07T10:52:00+08:00","datePublished":"2023-12-22T10:24:03+08:00","description":"一、前端文件流操作下面创建一个 fileUpload 的函数式组件，当用户选择文件时，通过FileReader将文件内容读取为 ArrayButter,然后将ArrayBuffer转换为十六进制字符串，并将结果显示在页面上。","headline":"前端文件流、切片下载和上传","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/12/22/upload-big-file/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[]},"url":"http://example.com/2023/12/22/upload-big-file/","keywords":"JS, 优化","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg"},"dateCreated":"2023-12-22T10:24:03+08:00","dateModified":"2025-12-07T10:52:00+08:00","datePublished":"2023-12-22T10:24:03+08:00","description":"一、前端文件流操作下面创建一个 fileUpload 的函数式组件，当用户选择文件时，通过FileReader将文件内容读取为 ArrayButter,然后将ArrayBuffer转换为十六进制字符串，并将结果显示在页面上。","headline":"前端文件流、切片下载和上传","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/12/22/upload-big-file/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg","logo":{"@type":"ImageObject","url":"/images/avatar.jpg"}},"url":"http://example.com/2023/12/22/upload-big-file/","keywords":"JS, 优化","image":[]}</script>
   
 </head>
 <body>
@@ -56,7 +58,7 @@
 <div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">王美</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">小王说</div></a></div></header>
 
 <div class="nav-area">
 
@@ -67,7 +69,7 @@
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2023/12/26/vue-nextTick/"><span class="title">vue中的nextTick</span></a><a class="item title" href="/2024/01/23/webpack/"><span class="title">webpack</span></a><a class="item title" href="/2023/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2023/08/10/virtual-list/"><span class="title">虚拟列表</span></a><a class="item title" href="/2024/03/18/vmin/"><span class="title">vmin和vw</span></a><a class="item title" href="/2022/09/19/tree-way-handshake/"><span class="title">三次握手和四次挥手</span></a><a class="item title" href="/2019/12/18/todo/"><span class="title">todo</span></a><a class="item title" href="/2023/12/22/upload-big-file/"><span class="title">前端文件流、切片下载和上传</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2025/12/09/react-hook/"><span class="title">React Hooks 的实现原理是什么?为什么 Hooks不能在条件语句或循环中使用?</span></a><a class="item title" href="/2024/05/19/performance-optimization/"><span class="title">前端性能优化</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2024/02/19/ModularDevelopmentHistory/"><span class="title">模块化发展历程</span></a><a class="item title" href="/2024/02/20/hot-module-replacement/"><span class="title">webpack的热更新原理</span></a><a class="item title" href="/2023/11/19/CICD/"><span class="title">CI/CD</span></a><a class="item title" href="/2024/02/25/ci-npm/"><span class="title">CI环境下的npm优化及工程化问题解析</span></a><a class="item title" href="/2024/03/10/asset-module/"><span class="title">Asset Modules资源模块</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">

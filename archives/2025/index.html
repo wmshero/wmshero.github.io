@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
   
-  
+  <meta name="robots" content="noindex,follow">
   <meta name="generator" content="Hexo 6.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,25 +17,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>虚拟DOM、diff算法、fiber - 王美</title>
+  <title>归档 - 小王说</title>
 
   
-    <meta name="description" content="在 React 中，Virtual DOM（虚拟 DOM）是一种内存中的表示，它是由 React 创建和维护的一种树形结构，用于表示真实 DOM 的抽象。当状态发生变化时，React 会通过比较新的 Virtual DOM 和旧的 Virtual DOM 的差异来确定需要更新的部分，并将这些变化应用到真实的 DOM 中，从而实现页面的更新。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="虚拟DOM、diff算法、fiber">
-<meta property="og:url" content="http://example.com/2023/11/10/virtual-dom-fiber/">
-<meta property="og:site_name" content="王美">
-<meta property="og:description" content="在 React 中，Virtual DOM（虚拟 DOM）是一种内存中的表示，它是由 React 创建和维护的一种树形结构，用于表示真实 DOM 的抽象。当状态发生变化时，React 会通过比较新的 Virtual DOM 和旧的 Virtual DOM 的差异来确定需要更新的部分，并将这些变化应用到真实的 DOM 中，从而实现页面的更新。">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="归档">
+<meta property="og:url" content="http://example.com/archives/2025/">
+<meta property="og:site_name" content="小王说">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-11-10T06:14:05.000Z">
-<meta property="article:modified_time" content="2025-12-07T02:52:00.278Z">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="vue,React">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
   
   
   
-  <meta name="keywords" content="vue,React">
+  
 
   <!-- feed -->
   
@@ -47,15 +44,15 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[]},"dateCreated":"2023-11-10T14:14:05+08:00","dateModified":"2025-12-07T10:52:00+08:00","datePublished":"2023-11-10T14:14:05+08:00","description":"在 React 中，Virtual DOM（虚拟 DOM）是一种内存中的表示，它是由 React 创建和维护的一种树形结构，用于表示真实 DOM 的抽象。当状态发生变化时，React 会通过比较新的 Virtual DOM 和旧的 Virtual DOM 的差异来确定需要更新的部分，并将这些变化应用到真实的 DOM 中，从而实现页面的更新。","headline":"虚拟DOM、diff算法、fiber","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2023/11/10/virtual-dom-fiber/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[]},"url":"http://example.com/2023/11/10/virtual-dom-fiber/","keywords":"vue,React","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Website","@id":"http://example.com","author":{"@type":"Person","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg"},"name":"小王说","description":"","url":"http://example.com"}</script>
   
 </head>
 <body>
 
-<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+<div class="l_body index" id="start" layout="undefined" type="undefined" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">王美</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">小王说</div></a></div></header>
 
 <div class="nav-area">
 
@@ -64,142 +61,21 @@
 <div class="widgets">
 <div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
-
-
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2023/12/26/vue-nextTick/"><span class="title">vue中的nextTick</span></a><a class="item title" href="/2024/01/23/webpack/"><span class="title">webpack</span></a><a class="item title" href="/2023/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2023/08/10/virtual-list/"><span class="title">虚拟列表</span></a><a class="item title" href="/2024/03/18/vmin/"><span class="title">vmin和vw</span></a><a class="item title" href="/2022/09/19/tree-way-handshake/"><span class="title">三次握手和四次挥手</span></a><a class="item title" href="/2019/12/18/todo/"><span class="title">todo</span></a><a class="item title" href="/2023/12/22/upload-big-file/"><span class="title">前端文件流、切片下载和上传</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2025/12/09/react-hook/"><span class="title">React Hooks 的实现原理是什么?为什么 Hooks不能在条件语句或循环中使用?</span></a><a class="item title" href="/2024/05/19/performance-optimization/"><span class="title">前端性能优化</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2024/02/19/ModularDevelopmentHistory/"><span class="title">模块化发展历程</span></a><a class="item title" href="/2024/02/20/hot-module-replacement/"><span class="title">webpack的热更新原理</span></a><a class="item title" href="/2023/11/19/CICD/"><span class="title">CI/CD</span></a><a class="item title" href="/2024/02/25/ci-npm/"><span class="title">CI环境下的npm优化及工程化问题解析</span></a><a class="item title" href="/2024/03/10/asset-module/"><span class="title">Asset Modules资源模块</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
 
+<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">小王说</div></a></div></header>
+
+ 
 
 
-
-
-<div class="article banner top">
-  <div class="content">
-    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2023-11-10T06:14:05.000Z">2023-11-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-07T02:52:00.278Z">2025-12-07</time></span></div></div></div>
-    
-    <div class="bottom only-title">
-      
-      <div class="text-area">
-        <h1 class="text title"><span>虚拟DOM、diff算法、fiber</span></h1>
-        
-      </div>
-    </div>
-    
-  </div>
-  </div><article class="md-text content"><p>在 React 中，Virtual DOM（虚拟 DOM）是一种内存中的表示，它是由 React 创建和维护的一种树形结构，用于表示真实 DOM 的抽象。当状态发生变化时，React 会通过比较新的 Virtual DOM 和旧的 Virtual DOM 的差异来确定需要更新的部分，并将这些变化应用到真实的 DOM 中，从而实现页面的更新。</p>
-<span id="more"></span>
-
-<h2 id="Virtual-DOM-的引入带来了以下好处"><a href="#Virtual-DOM-的引入带来了以下好处" class="headerlink" title="Virtual DOM 的引入带来了以下好处"></a>Virtual DOM 的引入带来了以下好处</h2><ol>
-<li><strong>提高性能</strong>：<br>Virtual DOM 通过将真实 DOM 的操作转换为对虚拟 DOM 的操作，然后批量更新到真实 DOM 中，<strong>减少了对真实 DOM 的频繁操作</strong>。这样可以提高页面渲染的性能，减少了浏览器重绘和重排的次数，提升了用户体验。</li>
-</ol>
-<ul>
-<li><strong>减少 DOM 操作的次数</strong>：虚拟 DOM 可以将多次操作合并为一次操作，比如添加 1000 个节点，却是一个接一个操作的；</li>
-<li><strong>减少 DOM 操作的范围</strong>：虚拟 DOM 借助 DOM diff 可以把多余的操作省掉，比如添加 1000 个节点，其实只有 10 个是新增的。</li>
-</ul>
-<ol start="2">
-<li><p><strong>简化开发</strong>：<br>使用 Virtual DOM 可以使开发人员更专注于应用程序的逻辑和数据，而不必过多地关注 DOM 操作的细节。通过使用组件化开发模式，开发人员可以将 UI 拆分成小而独立的组件，每个组件都有自己的状态和行为，这样可以更容易地管理和维护应用程序的代码。</p>
-</li>
-<li><p><strong>跨平台兼容性</strong>：<br>由于 Virtual DOM 是一个与平台无关的抽象层，因此可以轻松地将 React 应用程序移植到不同的平台上，包括 Web、移动端和桌面端等。这样可以提高应用程序的可移植性和跨平台兼容性。</p>
-</li>
-<li><p><strong>方便的测试</strong>：<br>使用 Virtual DOM 可以方便地进行单元测试和集成测试，因为可以在内存中操作虚拟 DOM，而无需真实的浏览器环境。这样可以加快测试速度，提高开发效率。</p>
-</li>
-</ol>
-<h3 id="虚拟-DOM-长什么样子？"><a href="#虚拟-DOM-长什么样子？" class="headerlink" title="虚拟 DOM 长什么样子？"></a>虚拟 DOM 长什么样子？</h3><h4 id="react"><a href="#react" class="headerlink" title="react:"></a>react:</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vNode=&#123;</span><br><span class="line">  <span class="attr">key</span>:<span class="literal">null</span>,</span><br><span class="line">  <span class="attr">props</span>:&#123;</span><br><span class="line">    <span class="attr">children</span>:[</span><br><span class="line">      &#123;<span class="attr">type</span>:<span class="string">&#x27;span&#x27;</span>,...&#125;,</span><br><span class="line">      &#123;<span class="attr">type</span>:<span class="string">&#x27;span&#x27;</span>,...&#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">className</span>:<span class="string">&#x27;red&#x27;</span>,</span><br><span class="line">    <span class="attr">onClick</span>:<span class="function">()=&gt;</span>&#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">ref</span>:<span class="literal">null</span>,</span><br><span class="line">  <span class="attr">type</span>:<span class="string">&#x27;div&#x27;</span>,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="vue"><a href="#vue" class="headerlink" title="vue:"></a>vue:</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> vNode=&#123;</span><br><span class="line">  <span class="attr">tag</span>:<span class="string">&quot;div&quot;</span>,</span><br><span class="line">  <span class="attr">data</span>:&#123;</span><br><span class="line">    <span class="attr">class</span>:<span class="string">&#x27;red&#x27;</span>,</span><br><span class="line">    <span class="attr">on</span>:&#123;</span><br><span class="line">     <span class="attr">click</span>:<span class="function">()=&gt;</span>&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">children</span>:[</span><br><span class="line">      &#123;<span class="attr">tag</span>:<span class="string">&#x27;span&#x27;</span>,...&#125;,</span><br><span class="line">      &#123;<span class="attr">tag</span>:<span class="string">&#x27;span&#x27;</span>,...&#125;,</span><br><span class="line">    ],</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现虚拟-DOM-例子"><a href="#实现虚拟-DOM-例子" class="headerlink" title="实现虚拟 DOM 例子"></a>实现虚拟 DOM 例子</h3><ol>
-<li>定义虚拟 DOM 元素</li>
-<li>创建文本节点</li>
-<li>将虚拟 DOM 渲染为真实 DOM</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义虚拟 DOM 元素</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">createElement</span> = (<span class="params">type, props, ...children</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    type,</span><br><span class="line">    <span class="attr">props</span>: &#123;</span><br><span class="line">      ...props,</span><br><span class="line">      <span class="attr">children</span>: children.<span class="title function_">map</span>(<span class="function">(<span class="params">child</span>) =&gt;</span></span><br><span class="line">        <span class="keyword">typeof</span> child === <span class="string">&quot;object&quot;</span> ? child : <span class="title function_">createTextElement</span>(child)</span><br><span class="line">      ),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建文本节点</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">createTextElement</span> = (<span class="params">text</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&quot;TEXT_ELEMENT&quot;</span>,</span><br><span class="line">    <span class="attr">props</span>: &#123;</span><br><span class="line">      <span class="attr">nodeValue</span>: text,</span><br><span class="line">      <span class="attr">children</span>: [],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将虚拟 DOM 渲染为真实 DOM</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">render</span> = (<span class="params">element, container</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> dom =</span><br><span class="line">    element.<span class="property">type</span> === <span class="string">&quot;TEXT_ELEMENT&quot;</span></span><br><span class="line">      ? <span class="variable language_">document</span>.<span class="title function_">createTextNode</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">      : <span class="variable language_">document</span>.<span class="title function_">createElement</span>(element.<span class="property">type</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">isProperty</span> = (<span class="params">key</span>) =&gt; key !== <span class="string">&quot;children&quot;</span>;</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">keys</span>(element.<span class="property">props</span>)</span><br><span class="line">    .<span class="title function_">filter</span>(isProperty)</span><br><span class="line">    .<span class="title function_">forEach</span>(<span class="function">(<span class="params">name</span>) =&gt;</span> &#123;</span><br><span class="line">      dom[name] = element.<span class="property">props</span>[name];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">  element.<span class="property">props</span>.<span class="property">children</span>.<span class="title function_">forEach</span>(<span class="function">(<span class="params">child</span>) =&gt;</span> <span class="title function_">render</span>(child, dom));</span><br><span class="line">  container.<span class="title function_">appendChild</span>(dom);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// React 的 createElement 和 render 函数使用</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">MyReact</span> = &#123;</span><br><span class="line">  createElement,</span><br><span class="line">  render,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line"><span class="keyword">const</span> element = <span class="title class_">MyReact</span>.<span class="title function_">createElement</span>(</span><br><span class="line">  <span class="string">&quot;div&quot;</span>,</span><br><span class="line">  &#123; <span class="attr">id</span>: <span class="string">&quot;container&quot;</span> &#125;,</span><br><span class="line">  <span class="title class_">MyReact</span>.<span class="title function_">createElement</span>(<span class="string">&quot;h1&quot;</span>, <span class="literal">null</span>, <span class="string">&quot;Hello, World!&quot;</span>),</span><br><span class="line">  <span class="title class_">MyReact</span>.<span class="title function_">createElement</span>(<span class="string">&quot;p&quot;</span>, <span class="literal">null</span>, <span class="string">&quot;This is a paragraph.&quot;</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> container = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"><span class="title class_">MyReact</span>.<span class="title function_">render</span>(element, container);</span><br></pre></td></tr></table></figure>
-
-<h2 id="虚拟-DOM-的缺点"><a href="#虚拟-DOM-的缺点" class="headerlink" title="虚拟 DOM 的缺点"></a>虚拟 DOM 的缺点</h2><p>需要额外的创造函数，如 createElement 或 h,但可以通过 JSX 来简化 XML 写法，严重依赖打包工具</p>
-<h2 id="diff-算法"><a href="#diff-算法" class="headerlink" title="diff 算法"></a>diff 算法</h2><ol>
-<li><p>虚拟 DOM 树比较：在进行更新时，React 会将当前的虚拟 DOM 树与新的虚拟 DOM 树进行比较，找出差异。</p>
-</li>
-<li><p>差异检测：React 使用 深度优先搜索算法（DFS）对比两棵虚拟 DOM 树，找出两棵树之间的差异。它会逐个比较节点及其子节点，找出哪些节点需要更新、添加或删除。</p>
-</li>
-<li><p>Diff 策略：React 使用了一些优化策略来减少 DOM 操作次数：</p>
-</li>
-</ol>
-<ul>
-<li>同层比较：React 只会对比相同层级的节点，不会跨层级比较。</li>
-<li>唯一标识：在进行节点比较时，React 会使用节点的唯一标识（通常是 key 属性）来判断节点是否相同，从而避免不必要的更新操作。</li>
-<li>节点移动：React 会尽量复用已存在的节点，而不是重新创建新的节点。如果节点顺序改变，React 会尝试通过移动节点来达到更新效果，而不是直接删除和重新插入节点。</li>
-<li>批量更新：React 会将多个更新操作合并成一个批量更新，然后一次性更新到真实 DOM 中，以减少页面重绘和重排的次数。</li>
-</ul>
-<ol start="4">
-<li>应用差异：一旦找到了两棵虚拟 DOM 树之间的差异，React 就会根据这些差异来进行相应的操作，更新真实 DOM。</li>
-</ol>
-<blockquote>
-<p>vue 中的 diff 算法在对新旧虚拟 dom 对比时，是从节点的两侧向中间对比，如果节点的 key 值和元素类型相同，属性值不同，就认为是不同节点，会将该节点删除重建<br>react 中的 diff 算法在对新旧虚拟 dom 对比时，是从节点的左边向右边对比，如果节点的 key 值和元素类型相同，属性值不同，就认为是节点同类型，只修改当前节点的属性</p>
-</blockquote>
-<h3 id="逻辑"><a href="#逻辑" class="headerlink" title="逻辑"></a>逻辑</h3><ol>
-<li>Tree diff</li>
-</ol>
-<ul>
-<li>将新旧两棵树逐层对比，找出哪些节点需要更新</li>
-<li>如果节点是组件就看 Component diff</li>
-<li>如果节点是标签就看 Element diff</li>
-</ul>
-<ol start="2">
-<li>Component diff</li>
-</ol>
-<ul>
-<li>如果节点是组件，就先看组件类型</li>
-<li>类型不同直接替换（删除旧的）</li>
-<li>类型相同则只更新属性</li>
-<li>然后深入组件做 Tree diff(递归)</li>
-</ul>
-<ol start="3">
-<li>Element diff</li>
-</ol>
-<ul>
-<li>如果节点是原生标签，则看标签名</li>
-<li>标签名不同直接替换，相同则只更新属性</li>
-<li>然后进入标签后代做 Tree diff(递归)</li>
-</ul>
-<h3 id="dom-diff-有什么缺点"><a href="#dom-diff-有什么缺点" class="headerlink" title="dom diff 有什么缺点"></a>dom diff 有什么缺点</h3><p>同级比较，存在 BUG，需要加个 唯一 Key,不能用 index 做下标</p>
-<h2 id="Fiber"><a href="#Fiber" class="headerlink" title="Fiber"></a>Fiber</h2><p>Fiber 是 React v16 中引入的一种新的协调算法，用于调度和管理 React 的渲染和更新过程。Fiber 的目标是使 React 应用程序更加流畅和响应，减少页面卡顿和掉帧的情况。<br>Fiber 的核心思想是将 React 的渲染过程分解为可中断的小任务，并且可以根据优先级来调度这些任务的执行顺序。这样可以使 React 在执行渲染任务时更加灵活，可以根据页面的需要来调整任务的优先级和执行顺序，从而提高用户体验。</p>
-<p>Fiber 的引入使得 React 具备了更高的并发能力和更灵活的调度策略，使得 React 应用程序可以更好地适应不同的场景和用户需求。</p>
-<p>综上所述，Virtual DOM 和 Fiber 是 React 内部机制中的两个关键概念，它们共同作用于 React 的渲染和更新过程中，提高了 React 应用程序的性能、效率和响应能力。Virtual DOM 优化了对真实 DOM 的操作，而 Fiber 则优化了 React 的渲染和更新调度过程。</p>
-<h2 id="关于-DOM-的谣言"><a href="#关于-DOM-的谣言" class="headerlink" title="关于 DOM 的谣言"></a>关于 DOM 的谣言</h2><h3 id="DOM-操作慢？虚拟-DOM-快"><a href="#DOM-操作慢？虚拟-DOM-快" class="headerlink" title="DOM 操作慢？虚拟 DOM 快"></a>DOM 操作慢？虚拟 DOM 快</h3><p>这句话类似于：刘翔矮（对比于姚明）<br>DOM 操作慢是对比于 JS 原生 API，如数组操作<br>任何基于 DOM 的库（Vue&#x2F;React）都不可能再操作 DOM 时比 DOM 快</p>
-<h3 id="为什么网上有这样的谣言？"><a href="#为什么网上有这样的谣言？" class="headerlink" title="为什么网上有这样的谣言？"></a>为什么网上有这样的谣言？</h3><p>因为在某些情况下，虚拟 DOM 快</p>
-<p>规模太大的时候，比如 100000 个节点，原生 DOM 要快，因为虚拟 DOM 要做大量的计算，规模小的时候（1000 个节点），虚拟 DOM 快</p>
-<p>在测试插入 10000 个节点的时候，vue 要比 react 快很多，vue 的速度接近原生 JS，当然这两个都没有做任何优化</p>
-</article>
-<div class="article-footer">
-    <section id="license">
-      <div class="header"><span>许可协议</span></div>
-      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
-</div>
-    </section>
-    
-
-</div>
-
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/11/19/CICD/">CI/CD</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/09/20/generate-dom/">Dom树怎么形成</a></div></section></div>
-
-
-
-
-
-
+<div class="navbar top"><div class="navbar-blur"><div class="navbar-container"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/archives/">归档</a></nav></div></div></div><div class="post-list archives"><article class="" id="archive"><div class='archive-header h4'>2025</div><div class="archive-list"><a class='post fs14' href="/2025/12/09/react-hook/"><time>12-09</time><span>React Hooks 的实现原理是什么?为什么 Hooks不能在条件语句或循环中使用?</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/12/09/crp/"><time>12-09</time><span>关键渲染路径(Critical Rendering Path)是什么？以及如何对其进行优化?</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/12/09/proxyAndSetState/"><time>12-09</time><span>响应式原理对比:Vue 的 Proxy 和 React 的 setState 有什么本质区别?</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/12/08/viteAndWebpack/"><time>12-08</time><span>Vite 为什么比 Webpack 在开发环境下快得多?它的原理是什么?</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/12/07/js-function-programming/"><time>12-07</time><span>从概念到实践讲讲js函数式编程</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2024</div><div class="archive-list"><a class='post fs14' href="/2024/11/10/virtual-dom-fiber/"><time>11-10</time><span>虚拟DOM、diff算法、fiber</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/05/27/message-push/"><time>05-27</time><span>实时消息推送的方案</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/05/19/performance-optimization/"><time>05-19</time><span>前端性能优化</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/03/31/snake/"><time>03-31</time><span>JS实现贪吃蛇游戏</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/03/19/pnpm/"><time>03-19</time><span>pnpm</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/03/18/vmin/"><time>03-18</time><span>vmin和vw</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/03/18/algorithm-share/"><time>03-18</time><span>算法可视化网站分享</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/03/10/asset-module/"><time>03-10</time><span>Asset Modules资源模块</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/02/26/vue2-vue3/"><time>02-26</time><span>vue2和vue3的区别</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/02/25/ci-npm/"><time>02-25</time><span>CI环境下的npm优化及工程化问题解析</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/02/20/hot-module-replacement/"><time>02-20</time><span>webpack的热更新原理</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/02/19/ModularDevelopmentHistory/"><time>02-19</time><span>模块化发展历程</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/23/webpack/"><time>01-23</time><span>Webpack的核心工作流程是怎样的?Loader 和 Plugin 的区别是什么? 如何提升 webpack 的构造性能?</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/19/docker/"><time>01-19</time><span>docker</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/16/macro-micro-Task/"><time>01-16</time><span>宏任务和微任务</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/16/nginx/"><time>01-16</time><span>nginx</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/16/BFF/"><time>01-16</time><span>BFF(Backend For Frontend)</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/11/React-SyntheticEvent/"><time>01-11</time><span>React 中的合成事件</span></a></div><div class="archive-list"><a class='post fs14' href="/2024/01/02/react/"><time>01-02</time><span>react</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2023</div><div class="archive-list"><a class='post fs14' href="/2023/12/27/NodeJs-Express/"><time>12-27</time><span>NodeJs-Express</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/26/vue-nextTick/"><time>12-26</time><span>vue中的nextTick</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/22/upload-big-file/"><time>12-22</time><span>前端文件流、切片下载和上传</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/19/hard-symbol-link/"><time>12-19</time><span>软链接和硬链接</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/19/indexedDB/"><time>12-19</time><span>indexedDB</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/18/debounce-throttle/"><time>12-18</time><span>防抖节流函数</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/15/compatibility/"><time>12-15</time><span>兼容性</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/10/react-key/"><time>12-10</time><span>react和Vue中的key</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/12/09/memory-leak/"><time>12-09</time><span>什么操作可以造成内存泄露</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/11/25/sort/"><time>11-25</time><span>排序算法</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/11/19/CICD/"><time>11-19</time><span>CI/CD</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/09/20/generate-dom/"><time>09-20</time><span>Dom树怎么形成</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/09/08/http/"><time>09-08</time><span>http协议</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/08/10/virtual-list/"><time>08-10</time><span>虚拟列表</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/06/26/precision-loss/"><time>06-26</time><span>js中精度丢失问题</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/06/20/closure/"><time>06-20</time><span>闭包</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/06/18/css-slide/"><time>06-18</time><span>CSS纵享丝滑滚动</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/04/08/deepClone/"><time>04-08</time><span>深拷贝</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/02/19/encryption/"><time>02-19</time><span>对称加密和非对称加密</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/02/19/service-worker/"><time>02-19</time><span>service worker</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/02/13/js-handwriting-function/"><time>02-13</time><span>js 手写函数</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/01/23/quick-sort/"><time>01-23</time><span>quick-sort</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/01/15/auto-testing/"><time>01-15</time><span>自动化测试</span></a></div><div class="archive-list"><a class='post fs14' href="/2023/01/15/garbage-recycling-mechanism/"><time>01-15</time><span>JS 垃圾回收机制</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2022</div><div class="archive-list"><a class='post fs14' href="/2022/12/14/img-lazyload/"><time>12-14</time><span>实现图片的懒加载</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/11/18/git/"><time>11-18</time><span>git</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/09/19/tree-way-handshake/"><time>09-19</time><span>三次握手和四次挥手</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/08/25/reflow-repaint/"><time>08-25</time><span>回流和重绘</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/03/18/prototype/"><time>03-18</time><span>原型和原型链</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/03/08/react-components/"><time>03-08</time><span>React 组件的编写</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/02/19/cookie-storage/"><time>02-19</time><span>Cookie、sessionStorage、localStorage 的区别</span></a></div><div class="archive-list"><a class='post fs14' href="/2022/02/19/ssl/"><time>02-19</time><span>ssl</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2021</div><div class="archive-list"><a class='post fs14' href="/2021/10/14/design-patterns/"><time>10-14</time><span>设计模式</span></a></div><div class="archive-list"><a class='post fs14' href="/2021/01/19/xss/"><time>01-19</time><span>xss攻击</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2020</div><div class="archive-list"><a class='post fs14' href="/2020/12/18/sleep-function/"><time>12-18</time><span>sleep 函数</span></a></div><div class="archive-list"><a class='post fs14' href="/2020/08/25/input-url-brower/"><time>08-25</time><span>从浏览器地址栏输入url到请求返回发生了什么</span></a></div><div class="archive-list"><a class='post fs14' href="/2020/07/21/JSBridge/"><time>07-21</time><span>JSBridge</span></a></div><div class="archive-list"><a class='post fs14' href="/2020/02/20/strong-cache/"><time>02-20</time><span>强缓存和协商缓存</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2019</div><div class="archive-list"><a class='post fs14' href="/2019/12/18/todo/"><time>12-18</time><span>todo</span></a></div><div class="archive-list"><a class='post fs14' href="/2019/11/10/array-function/"><time>11-10</time><span>JS 数组方法</span></a></div><div class="archive-list"><a class='post fs14' href="/2019/10/10/compose/"><time>10-10</time><span>compose函数组合</span></a></div><div class="archive-list"><a class='post fs14' href="/2019/10/01/countdown/"><time>10-01</time><span>JS实现倒计时</span></a></div></article><article class="" id="archive"><div class='archive-header h4'>2018</div><div class="archive-list"><a class='post fs14' href="/2018/03/04/JSDoc/"><time>03-04</time><span>JSDoc</span></a></div></article></div>
 <footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">John Doe</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-<div class="widgets">
-
-
-
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Virtual-DOM-%E7%9A%84%E5%BC%95%E5%85%A5%E5%B8%A6%E6%9D%A5%E4%BA%86%E4%BB%A5%E4%B8%8B%E5%A5%BD%E5%A4%84"><span class="toc-text">Virtual DOM 的引入带来了以下好处</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F-DOM-%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90%EF%BC%9F"><span class="toc-text">虚拟 DOM 长什么样子？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#react"><span class="toc-text">react:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vue"><span class="toc-text">vue:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%99%9A%E6%8B%9F-DOM-%E4%BE%8B%E5%AD%90"><span class="toc-text">实现虚拟 DOM 例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F-DOM-%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-text">虚拟 DOM 的缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#diff-%E7%AE%97%E6%B3%95"><span class="toc-text">diff 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91"><span class="toc-text">逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dom-diff-%E6%9C%89%E4%BB%80%E4%B9%88%E7%BC%BA%E7%82%B9"><span class="toc-text">dom diff 有什么缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fiber"><span class="toc-text">Fiber</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-DOM-%E7%9A%84%E8%B0%A3%E8%A8%80"><span class="toc-text">关于 DOM 的谣言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-%E6%93%8D%E4%BD%9C%E6%85%A2%EF%BC%9F%E8%99%9A%E6%8B%9F-DOM-%E5%BF%AB"><span class="toc-text">DOM 操作慢？虚拟 DOM 快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BD%91%E4%B8%8A%E6%9C%89%E8%BF%99%E6%A0%B7%E7%9A%84%E8%B0%A3%E8%A8%80%EF%BC%9F"><span class="toc-text">为什么网上有这样的谣言？</span></a></li></ol></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
-</div></aside><div class='float-panel'>
+</aside><div class='float-panel'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>

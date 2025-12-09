@@ -17,21 +17,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
-  <title>前端性能优化 - 王美</title>
+  <title>前端性能优化 - 小王说</title>
 
   
     <meta name="description" content="什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。  减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载 使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载 平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘 感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加">
 <meta property="og:type" content="article">
 <meta property="og:title" content="前端性能优化">
 <meta property="og:url" content="http://example.com/2024/05/19/performance-optimization/">
-<meta property="og:site_name" content="王美">
+<meta property="og:site_name" content="小王说">
 <meta property="og:description" content="什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。  减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载 使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载 平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘 感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
 <meta property="article:published_time" content="2024-05-19T07:49:59.000Z">
-<meta property="article:modified_time" content="2025-12-07T02:52:00.270Z">
+<meta property="article:modified_time" content="2025-12-09T08:39:05.515Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="性能优化">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
   
   
   
@@ -47,7 +49,7 @@
 
   
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[]},"dateCreated":"2024-05-19T15:49:59+08:00","dateModified":"2025-12-07T10:52:00+08:00","datePublished":"2024-05-19T15:49:59+08:00","description":"什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。\n\n减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载\n使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载\n平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘\n感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加载动画、进度条、骨架屏等提示信息\n性能测定：性能指标、性能测试、性能监控持续优化\n\n如何进行 Web 性能优化？\n首先需要了解性能指标 - 多快才算快？\n使用专业的工具可量化的评估出网站或应用的性能表现\n然后立足于网站页面响应的生命周期，分析出造成较差性能表现的原因\n最后进行技术改造、可行性分析等具体的优化实践\n迭代优化\n","headline":"前端性能优化","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/05/19/performance-optimization/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[]},"url":"http://example.com/2024/05/19/performance-optimization/","keywords":"性能优化","image":[]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg"},"dateCreated":"2024-05-19T15:49:59+08:00","dateModified":"2025-12-09T16:39:05+08:00","datePublished":"2024-05-19T15:49:59+08:00","description":"什么是 web 性能？MDN 上的 web 性能定义： Web 性能是网站或应用程序的客观度量和可感知的用户体验。\n\n减少整体加载时间： 减少文件体积、减少 HTTP 请求、使用预加载\n使得网站尽快可用：仅加载首屏内容，其他内容根据需要进行懒加载\n平滑和交互性：使用 CSS 替代 JS 动画、减少 UI 重绘\n感知表现：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加载动画、进度条、骨架屏等提示信息\n性能测定：性能指标、性能测试、性能监控持续优化\n","headline":"前端性能优化","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/05/19/performance-optimization/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg","logo":{"@type":"ImageObject","url":"/images/avatar.jpg"}},"url":"http://example.com/2024/05/19/performance-optimization/","keywords":"性能优化","image":[]}</script>
   
 </head>
 <body>
@@ -55,7 +57,7 @@
 <div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
 
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="undefined" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">王美</div></a></div></header>
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">小王说</div></a></div></header>
 
 <div class="nav-area">
 
@@ -66,7 +68,7 @@
 
 
 
-<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2023/12/26/vue-nextTick/"><span class="title">vue中的nextTick</span></a><a class="item title" href="/2024/01/23/webpack/"><span class="title">webpack</span></a><a class="item title" href="/2023/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2023/08/10/virtual-list/"><span class="title">虚拟列表</span></a><a class="item title" href="/2024/03/18/vmin/"><span class="title">vmin和vw</span></a><a class="item title" href="/2022/09/19/tree-way-handshake/"><span class="title">三次握手和四次挥手</span></a><a class="item title" href="/2019/12/18/todo/"><span class="title">todo</span></a><a class="item title" href="/2023/12/22/upload-big-file/"><span class="title">前端文件流、切片下载和上传</span></a></div></widget>
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2025/12/09/react-hook/"><span class="title">React Hooks 的实现原理是什么?为什么 Hooks不能在条件语句或循环中使用?</span></a><a class="item title" href="/2024/05/19/performance-optimization/"><span class="title">前端性能优化</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2024/02/19/ModularDevelopmentHistory/"><span class="title">模块化发展历程</span></a><a class="item title" href="/2024/02/20/hot-module-replacement/"><span class="title">webpack的热更新原理</span></a><a class="item title" href="/2023/11/19/CICD/"><span class="title">CI/CD</span></a><a class="item title" href="/2024/02/25/ci-npm/"><span class="title">CI环境下的npm优化及工程化问题解析</span></a><a class="item title" href="/2024/03/10/asset-module/"><span class="title">Asset Modules资源模块</span></a></div></widget>
 </div>
 
 </div></aside><div class="l_main" id="main">
@@ -79,7 +81,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-05-19T07:49:59.000Z">2024-05-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-07T02:52:00.270Z">2025-12-07</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-05-19T07:49:59.000Z">2024-05-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-09T08:39:05.515Z">2025-12-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -98,6 +100,9 @@
 <li><strong>感知表现</strong>：你的页面可能不难做到更快，但你可以让用户感觉更快。耗时操作要给用户反馈，比如加载动画、进度条、骨架屏等提示信息</li>
 <li><strong>性能测定</strong>：性能指标、性能测试、性能监控持续优化</li>
 </ul>
+<span id="more"></span>
+
+
 <h1 id="如何进行-Web-性能优化？"><a href="#如何进行-Web-性能优化？" class="headerlink" title="如何进行 Web 性能优化？"></a>如何进行 Web 性能优化？</h1><ol>
 <li>首先需要了解性能指标 - 多快才算快？</li>
 <li>使用专业的工具可量化的评估出网站或应用的性能表现</li>
@@ -105,8 +110,6 @@
 <li>最后进行技术改造、可行性分析等具体的优化实践</li>
 <li>迭代优化</li>
 </ol>
-<span id="more"></span>
-
 <h1 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h1><h2 id="RAIL-性能模型"><a href="#RAIL-性能模型" class="headerlink" title="RAIL 性能模型"></a>RAIL 性能模型</h2><p>R（Response） - 尽快响应用户，应该在 100ms 内快速响应用户输入<br>A（Animation）- 在展示动画的时候，每一帧应该以 16ms 进行响应，避免卡顿<br>I（Idle）- 当使用 JS 主线程的时候，应该把任务划分到执行时间小于 50ms 的片段中去，这样可以释放线程以进行用户交互<br>L（Load）- 应该在小于 1S 的时间内加载完成你的网站，并进行用户交互</p>
 <h2 id="基于用户体验的性能指标"><a href="#基于用户体验的性能指标" class="headerlink" title="基于用户体验的性能指标"></a>基于用户体验的性能指标</h2><h3 id="FCP-（First-Contentful-Paint）-首次内容绘制"><a href="#FCP-（First-Contentful-Paint）-首次内容绘制" class="headerlink" title="FCP （First Contentful Paint） 首次内容绘制"></a>FCP （First Contentful Paint） 首次内容绘制</h3><p>浏览器<strong>首次绘制来自 DOM 的内容的时间</strong>，内容必须是文本、图片（包含背景图）、非白色的 canvas 或 svg，也包括带有正在加载中的 web 字体的文本。</p>
 <blockquote>

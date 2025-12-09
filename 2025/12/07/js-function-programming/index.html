@@ -1,0 +1,984 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1" theme-name="Stellar" theme-version="1.33.1">
+  
+  
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  <title>从概念到实践讲讲js函数式编程 - 小王说</title>
+
+  
+    <meta name="description" content="函数式编程（Functional Programming，FP）是一种以函数为核心的编程范式，强调通过纯函数、不可变数据、函数组合等方式构建程序，而非依赖状态修改和指令式流程。与传统的命令式编程（一步步告诉计算机 “怎么做”）不同，函数式编程更关注 “做什么”，追求代码的简洁、可复用、可测试性。 一、先搞懂：什么是 JS 函数式编程？先通过命令式 vs 函数式的对比示例，直观感受核心差异： 场景：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从概念到实践讲讲js函数式编程">
+<meta property="og:url" content="http://example.com/2025/12/07/js-function-programming/">
+<meta property="og:site_name" content="小王说">
+<meta property="og:description" content="函数式编程（Functional Programming，FP）是一种以函数为核心的编程范式，强调通过纯函数、不可变数据、函数组合等方式构建程序，而非依赖状态修改和指令式流程。与传统的命令式编程（一步步告诉计算机 “怎么做”）不同，函数式编程更关注 “做什么”，追求代码的简洁、可复用、可测试性。 一、先搞懂：什么是 JS 函数式编程？先通过命令式 vs 函数式的对比示例，直观感受核心差异： 场景：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
+<meta property="article:published_time" content="2025-12-07T11:33:48.000Z">
+<meta property="article:modified_time" content="2025-12-07T11:59:25.064Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
+  
+  
+  
+  <meta name="keywords" content="React">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.33.1">
+
+
+  
+
+  
+
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg"},"dateCreated":"2025-12-07T19:33:48+08:00","dateModified":"2025-12-07T19:59:25+08:00","datePublished":"2025-12-07T19:33:48+08:00","description":"","headline":"从概念到实践讲讲js函数式编程","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2025/12/07/js-function-programming/"},"publisher":{"@type":"Organization","name":"John Doe","sameAs":[],"image":"/images/avatar.jpg","logo":{"@type":"ImageObject","url":"/images/avatar.jpg"}},"url":"http://example.com/2025/12/07/js-function-programming/","keywords":"React","image":[]}</script>
+  
+</head>
+<body>
+
+<div class="l_body content" id="start" layout="post" type="tech" ><aside class="l_left"><div class="sidebg"></div><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main">小王说</div></a></div></header>
+
+<div class="nav-area">
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="分类" href="/categories/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="项目" href="/projects/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="关于我" href="/about/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
+</div>
+<div class="widgets">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+
+<widget class="widget-wrapper recent post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/11/10/virtual-dom-fiber/"><span class="title">虚拟DOM、diff算法、fiber</span></a><a class="item title" href="/2025/12/09/react-hook/"><span class="title">React Hooks 的实现原理是什么?为什么 Hooks不能在条件语句或循环中使用?</span></a><a class="item title" href="/2024/05/19/performance-optimization/"><span class="title">前端性能优化</span></a><a class="item title" href="/2021/01/19/xss/"><span class="title">xss攻击</span></a><a class="item title" href="/2024/02/26/vue2-vue3/"><span class="title">vue2和vue3的区别</span></a><a class="item title" href="/2024/02/19/ModularDevelopmentHistory/"><span class="title">模块化发展历程</span></a><a class="item title" href="/2024/02/20/hot-module-replacement/"><span class="title">webpack的热更新原理</span></a><a class="item title" href="/2023/11/19/CICD/"><span class="title">CI/CD</span></a><a class="item title" href="/2024/02/25/ci-npm/"><span class="title">CI环境下的npm优化及工程化问题解析</span></a><a class="item title" href="/2024/03/10/asset-module/"><span class="title">Asset Modules资源模块</span></a></div></widget>
+</div>
+
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-12-07T11:33:48.000Z">2025-12-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-12-07T11:59:25.064Z">2025-12-07</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>从概念到实践讲讲js函数式编程</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>函数式编程（Functional Programming，FP）是一种以函数为核心的编程范式，强调通过<strong>纯函数、不可变数据、函数组合</strong>等方式构建程序，而非依赖状态修改和指令式流程。与传统的命令式编程（一步步告诉计算机 “怎么做”）不同，函数式编程更关注 “做什么”，追求代码的简洁、可复用、可测试性。</p>
+<h2 id="一、先搞懂：什么是-JS-函数式编程？"><a href="#一、先搞懂：什么是-JS-函数式编程？" class="headerlink" title="一、先搞懂：什么是 JS 函数式编程？"></a>一、先搞懂：什么是 JS 函数式编程？</h2><p>先通过命令式 vs 函数式的对比示例，直观感受核心差异：</p>
+<p>场景：筛选数组中大于 10 的偶数并翻倍</p>
+<ol>
+<li>命令式编程（传统写法）</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 命令式：关注“步骤”，手动管理状态和循环</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>, <span class="number">20</span>, <span class="number">7</span>, <span class="number">18</span>];</span><br><span class="line"><span class="keyword">const</span> result = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">const</span> item = arr[i];</span><br><span class="line">  <span class="comment">// 步骤1：筛选大于10的数</span></span><br><span class="line">  <span class="keyword">if</span> (item &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="comment">// 步骤2：筛选偶数</span></span><br><span class="line">    <span class="keyword">if</span> (item % <span class="number">2</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 步骤3：翻倍并存入结果</span></span><br><span class="line">      result.<span class="title function_">push</span>(item * <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result); <span class="comment">// [24, 40, 36]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>函数式编程（FP 写法）</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数式：关注“结果”，用纯函数组合实现逻辑</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>, <span class="number">20</span>, <span class="number">7</span>, <span class="number">18</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 定义纯函数（无副作用、输入决定输出）</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">isGreaterThan10</span> = (<span class="params">num</span>) =&gt; num &gt; <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">isEven</span> = (<span class="params">num</span>) =&gt; num % <span class="number">2</span> === <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">double</span> = (<span class="params">num</span>) =&gt; num * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 用数组高阶函数（map/filter）组合逻辑</span></span><br><span class="line"><span class="keyword">const</span> result = arr</span><br><span class="line">  .<span class="title function_">filter</span>(isGreaterThan10)</span><br><span class="line">  .<span class="title function_">filter</span>(isEven)</span><br><span class="line">  .<span class="title function_">map</span>(double);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result); <span class="comment">// [24, 40, 36]</span></span><br></pre></td></tr></table></figure>
+
+<p>函数式编程的核心特征（从示例中提炼）</p>
+<ol>
+<li>纯函数（Pure Function）：</li>
+</ol>
+<ul>
+<li>输入相同，输出必然相同（无随机值、无依赖外部状态）；</li>
+<li>无副作用（不修改外部变量、不操作 DOM、不发请求）；</li>
+<li>示例中 <code>isGreaterThan10</code>&#x2F;<code>isEven</code>&#x2F;<code>double</code> 都是纯函数。</li>
+</ul>
+<ol start="2">
+<li>不可变数据（Immutable Data）：</li>
+</ol>
+<ul>
+<li>不修改原始数据，而是返回新数据（示例中 <code>filter</code>&#x2F;<code>map</code> 均返回新数组，原数组 <code>arr</code> 未被修改）；</li>
+<li>JS 中可通过 <code>Object.freeze</code>、展开运算符 <code>...</code>、<code>Object.assign</code> 实现简单不可变。</li>
+</ul>
+<ol start="3">
+<li>高阶函数（Higher-Order Function）：</li>
+</ol>
+<ul>
+<li>接受函数作为参数，或返回函数的函数（示例中 filter&#x2F;map 是高阶函数，接收纯函数作为参数）；</li>
+<li>JS 内置高阶函数：map&#x2F;filter&#x2F;reduce&#x2F;forEach&#x2F;sort 等。</li>
+</ul>
+<ol start="4">
+<li>函数组合（Function Composition）：<br>将多个小函数组合成一个大函数，实现复杂逻辑（示例中 <code>filter+filter+map</code> 就是简单的组合）。</li>
+</ol>
+<h2 id="二、深入实践：函数式编程的核心用法"><a href="#二、深入实践：函数式编程的核心用法" class="headerlink" title="二、深入实践：函数式编程的核心用法"></a>二、深入实践：函数式编程的核心用法</h2><ol>
+<li>纯函数：避免副作用</li>
+</ol>
+<p><strong>反例（不纯函数）</strong>：依赖外部变量、修改外部状态</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> globalNum = <span class="number">10</span>;</span><br><span class="line"><span class="comment">// 不纯：依赖外部变量，输入相同但输出可能不同</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">add</span> = (<span class="params">num</span>) =&gt; num + globalNum;</span><br><span class="line"><span class="comment">// 不纯：修改外部数组（副作用）</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">pushItem</span> = (<span class="params">arr, item</span>) =&gt; &#123;</span><br><span class="line">  arr.<span class="title function_">push</span>(item);</span><br><span class="line">  <span class="keyword">return</span> arr;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>正例（纯函数）：</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 纯函数：输入决定输出，无外部依赖</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">add</span> = (<span class="params">num1, num2</span>) =&gt; num1 + num2;</span><br><span class="line"><span class="comment">// 纯函数：返回新数组，不修改原数组</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">pushItem</span> = (<span class="params">arr, item</span>) =&gt; [...arr, item];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试：输入相同，输出必相同</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add</span>(<span class="number">2</span>, <span class="number">3</span>)); <span class="comment">// 5（永远）</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">pushItem</span>([<span class="number">1</span>,<span class="number">2</span>], <span class="number">3</span>)); <span class="comment">// [1,2,3]（原数组仍为[1,2]）</span></span><br></pre></td></tr></table></figure>
+
+
+<ol start="2">
+<li>不可变数据：避免状态混乱</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123; <span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">20</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 命令式：修改原对象（副作用）</span></span><br><span class="line">user.<span class="property">age</span> = <span class="number">21</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(user); <span class="comment">// &#123; name: &quot;张三&quot;, age: 21 &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数式：返回新对象，原对象不变</span></span><br><span class="line"><span class="keyword">const</span> updatedUser = &#123; ...user, <span class="attr">age</span>: <span class="number">21</span> &#125;;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(user); <span class="comment">// &#123; name: &quot;张三&quot;, age: 20 &#125;（原对象未变）</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(updatedUser); <span class="comment">// &#123; name: &quot;张三&quot;, age: 21 &#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>函数组合：封装复杂逻辑<br>手动实现 “函数组合” 工具，将多个单职责函数组合成一个函数：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 组合函数：从右到左执行（先执行最后一个函数，结果传给前一个）</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">compose</span> = (<span class="params">...fns</span>) =&gt; <span class="function">(<span class="params">x</span>) =&gt;</span> fns.<span class="title function_">reduceRight</span>(<span class="function">(<span class="params">acc, fn</span>) =&gt;</span> <span class="title function_">fn</span>(acc), x);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复用之前的纯函数</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">isGreaterThan10</span> = (<span class="params">num</span>) =&gt; num &gt; <span class="number">10</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">isEven</span> = (<span class="params">num</span>) =&gt; num % <span class="number">2</span> === <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">double</span> = (<span class="params">num</span>) =&gt; num * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 组合成新函数：先筛选&gt;10 → 筛选偶数 → 翻倍</span></span><br><span class="line"><span class="keyword">const</span> processNum = <span class="title function_">compose</span>(double, isEven, isGreaterThan10); <span class="comment">// 注意顺序（从右到左）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 扩展：数组处理的组合函数</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">processArr</span> = (<span class="params">arr</span>) =&gt; arr.<span class="title function_">filter</span>(<span class="title function_">compose</span>(isEven, isGreaterThan10)).<span class="title function_">map</span>(double);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">processArr</span>([<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>, <span class="number">20</span>, <span class="number">7</span>, <span class="number">18</span>])); <span class="comment">// [24, 40, 36]</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>柯里化（Currying）：函数参数复用<br>柯里化是将多参数函数转换为单参数函数的过程，核心是 “参数复用”：</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 柯里化工具函数</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">curry</span> = (<span class="params">fn</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">curried</span>(<span class="params">...args</span>) &#123;</span><br><span class="line">    <span class="comment">// 若参数足够，执行原函数；否则返回新函数接收剩余参数</span></span><br><span class="line">    <span class="keyword">if</span> (args.<span class="property">length</span> &gt;= fn.<span class="property">length</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> curried.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args.<span class="title function_">concat</span>(args2));</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原多参数函数</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">add</span> = (<span class="params">a, b, c</span>) =&gt; a + b + c;</span><br><span class="line"><span class="comment">// 柯里化后</span></span><br><span class="line"><span class="keyword">const</span> curriedAdd = <span class="title function_">curry</span>(add);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用法1：分步传参（复用参数）</span></span><br><span class="line"><span class="keyword">const</span> add5 = <span class="title function_">curriedAdd</span>(<span class="number">5</span>); <span class="comment">// 固定第一个参数为5</span></span><br><span class="line"><span class="keyword">const</span> add5And6 = <span class="title function_">add5</span>(<span class="number">6</span>); <span class="comment">// 固定第二个参数为6</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">add5And6</span>(<span class="number">7</span>)); <span class="comment">// 5+6+7=18</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 用法2：直接传所有参数</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">curriedAdd</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)); <span class="comment">// 6</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="三、为什么要用函数式编程？"><a href="#三、为什么要用函数式编程？" class="headerlink" title="三、为什么要用函数式编程？"></a>三、为什么要用函数式编程？</h2><ol>
+<li><p>代码更简洁、易读<br>摒弃冗长的循环、条件判断嵌套，用 “函数组合” 替代 “步骤式指令”；<br>单职责函数语义清晰（如 isEven&#x2F;double 一看就懂，无需注释）。</p>
+</li>
+<li><p>易测试、易调试<br>纯函数无依赖、无副作用，测试时只需关注 “输入→输出”，无需模拟外部状态；<br>调试时可直接单独运行某个纯函数，定位问题更高效。</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试纯函数（无需任何环境准备）</span></span><br><span class="line"><span class="title function_">test</span>(<span class="string">&quot;isEven should return true for even numbers&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">expect</span>(<span class="title function_">isEven</span>(<span class="number">2</span>)).<span class="title function_">toBe</span>(<span class="literal">true</span>);</span><br><span class="line">  <span class="title function_">expect</span>(<span class="title function_">isEven</span>(<span class="number">3</span>)).<span class="title function_">toBe</span>(<span class="literal">false</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>避免状态混乱<br>不可变数据杜绝了 “意外修改共享状态” 的问题（多线程 &#x2F; 异步场景下尤为重要）；<br>例如 React 中，state 必须通过<code>setState</code> 修改（不可变思想），避免组件状态异常。</p>
+</li>
+<li><p>代码复用性更高<br>纯函数、柯里化、函数组合可快速封装通用逻辑（如表单验证、数据处理）；<br>例如：封装一个通用的 “数据筛选 + 转换” 函数，可复用在多个业务场景。</p>
+</li>
+</ol>
+<h2 id="四、函数式编程的优点与局限"><a href="#四、函数式编程的优点与局限" class="headerlink" title="四、函数式编程的优点与局限"></a>四、函数式编程的优点与局限</h2><table>
+<thead>
+<tr>
+<th>优点</th>
+<th>具体说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可读性高</td>
+<td>语义化函数名替代指令式步骤，代码接近自然语言</td>
+</tr>
+<tr>
+<td>可维护性强</td>
+<td>单职责函数低耦合，修改一个函数不影响其他逻辑</td>
+</tr>
+<tr>
+<td>可测试性好</td>
+<td>纯函数无依赖，单元测试无需复杂的环境模拟</td>
+</tr>
+<tr>
+<td>并行安全</td>
+<td>不可变数据避免多线程 &#x2F; 异步场景下的 “竞态条件”（JS 中主要体现在异步代码）</td>
+</tr>
+<tr>
+<td>复用性高</td>
+<td>柯里化、组合函数可快速封装通用逻辑</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>局限</th>
+<th>具体说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>性能开销</td>
+<td>不可变数据会创建大量新对象（如频繁修改大数组 &#x2F; 对象时，内存占用高于命令式）</td>
+</tr>
+<tr>
+<td>学习成本高</td>
+<td>柯里化、组合、函子等概念较抽象，新手难理解</td>
+</tr>
+<tr>
+<td>不适合所有场景</td>
+<td>简单的 “一次性逻辑”（如临时遍历数组）用函数式可能比命令式更繁琐</td>
+</tr>
+<tr>
+<td>调试难度增加</td>
+<td>多层函数组合时，定位问题需要跟踪函数执行链（可通过中间件 &#x2F; 日志改善）</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="五、使用建议"><a href="#五、使用建议" class="headerlink" title="五、使用建议"></a>五、使用建议</h2><ol>
+<li><p>不要 “一刀切”：混合范式<br>JS 是多范式语言，无需完全抛弃命令式，按需使用函数式；<br>例如：简单的循环用 for 没问题，复杂的数据处理用 filter&#x2F;map&#x2F;reduce，状态管理用不可变思想。</p>
+</li>
+<li><p>优先使用内置高阶函数<br>优先用 <code>map/filter/reduce/find</code> 等内置函数，避免手动写循环；<br>例如：<code>reduce</code> 可替代大部分 “遍历 + 累加 &#x2F; 聚合” 逻辑，代码更简洁。</p>
+</li>
+<li><p>合理使用工具库（避免重复造轮子）<br>简单场景：手写柯里化、组合函数；<br>复杂场景：使用成熟的函数式库（如 <code>lodash/fp、ramda</code>），内置了大量纯函数、柯里化、组合工具。</p>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// lodash/fp 示例（自动柯里化、不可变）</span></span><br><span class="line"><span class="keyword">import</span> fp <span class="keyword">from</span> <span class="string">&quot;lodash/fp&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> processArr = fp.<span class="title function_">flow</span>(</span><br><span class="line">  fp.<span class="title function_">filter</span>(fp.<span class="title function_">gt</span>(fp.<span class="property">__</span>, <span class="number">10</span>)), <span class="comment">// __ 是占位符</span></span><br><span class="line">  fp.<span class="title function_">filter</span>(fp.<span class="property">even</span>),</span><br><span class="line">  fp.<span class="title function_">map</span>(fp.<span class="title function_">multiply</span>(<span class="number">2</span>))</span><br><span class="line">);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">processArr</span>([<span class="number">1</span>, <span class="number">12</span>, <span class="number">5</span>, <span class="number">20</span>, <span class="number">7</span>, <span class="number">18</span>])); <span class="comment">// [24, 40, 36]</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li><p>避免过度抽象<br>不要为了 “函数式” 而强行柯里化 &#x2F; 组合，简单逻辑保持简洁；<br>例如：<code>const add = (a,b) =&gt; a+b</code> 比柯里化后的 <code>curriedAdd(1)(2)</code> 更易读。</p>
+</li>
+<li><p>结合框架使用<br>React：函数组件 + <code>Hooks</code>（纯函数思想）、<code>Redux</code>（不可变状态）都是函数式的典型应用；<br>Vue：<code>Pinia/Vuex</code> 中的状态修改需通过 <code>action/mutation</code>（不可变思想）。</p>
+</li>
+</ol>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>函数式编程的核心是用纯函数构建无副作用的逻辑，它不是 “银弹”，但能显著提升代码的可维护性、可测试性。在 JS 中，我们无需精通所有函数式概念（如函子、单子），只需掌握 “纯函数、不可变、高阶函数、函数组合” 这几个核心，就能在实际开发中受益。</p>
+<p><strong>最终建议</strong>：以 “解决问题” 为核心，将函数式思想融入日常开发，而非机械套用范式 —— 简单逻辑保持直观，复杂逻辑用函数式简化，这才是 JS 函数式编程的最佳实践。</p>
+</article>
+<div class="article-footer">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+
+</div>
+
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/12/08/viteAndWebpack/">Vite 为什么比 Webpack 在开发环境下快得多?它的原理是什么?</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/11/10/virtual-dom-fiber/">虚拟DOM、diff算法、fiber</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">John Doe</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.33.1">Stellar 1.33.1</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%85%88%E6%90%9E%E6%87%82%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF-JS-%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%9F"><span class="toc-text">一、先搞懂：什么是 JS 函数式编程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%B7%B1%E5%85%A5%E5%AE%9E%E8%B7%B5%EF%BC%9A%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E6%A0%B8%E5%BF%83%E7%94%A8%E6%B3%95"><span class="toc-text">二、深入实践：函数式编程的核心用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%EF%BC%9F"><span class="toc-text">三、为什么要用函数式编程？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%9A%84%E4%BC%98%E7%82%B9%E4%B8%8E%E5%B1%80%E9%99%90"><span class="toc-text">四、函数式编程的优点与局限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="toc-text">五、使用建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">六、总结</span></a></li></ol></div><div class="widget-footer"><a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Solar by 480 Design - https://creativecommons.org/licenses/by/4.0/ --><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/><path d="M7 3.338A9.95 9.95 0 0 1 12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12c0-1.821.487-3.53 1.338-5"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+
+
+<script type="text/javascript">
+  window.canonical = {"originalHost":null,"officialHosts":["localhost"],"encoded":""};
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+    tag_plugins: {
+      chat: Object.assign({"api":"https://siteinfo.listentothewind.cn/api/v1"}),
+    }
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+    loading: `https://api.iconify.design/eos-icons:three-dots-loading.svg?color=%231cd0fd`,
+  };
+  const deps = {
+    jquery: `https://gcore.jsdelivr.net/npm/jquery@3.7/dist/jquery.min.js`,
+    marked: `https://gcore.jsdelivr.net/npm/marked@13.0/lib/marked.umd.min.js`,
+    lazyload: `/%5Bobject%20Object%5D`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = () => {
+          utils.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) => {
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index, 1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')) {
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function () {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      const maxRetry = 3;
+      let retryCount = 0;
+
+      return new Promise((resolve, reject) => {
+        const load = () => {
+          utils.onLoading?.(el);
+
+          let timedOut = false;
+          const timeout = setTimeout(() => {
+            timedOut = true;
+            console.warn('[request] 超时:', url);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject('请求超时');
+            } else {
+              setTimeout(load, 1000);
+            }
+          }, 5000);
+
+          fetch(url).then(resp => {
+            if (timedOut) return;
+            clearTimeout(timeout);
+
+            if (!resp.ok) throw new Error('响应失败');
+            return resp;
+          }).then(data => {
+            if (timedOut) return;
+            utils.onLoadSuccess?.(el);
+            callback(data);
+            resolve(data);
+          }).catch(err => {
+            clearTimeout(timeout);
+            console.warn('[request] 错误:', err);
+
+            if (++retryCount >= maxRetry) {
+              utils.onLoadFailure?.(el);
+              onFailure?.();
+              reject(err);
+            } else {
+              setTimeout(load, 1000);
+            }
+          });
+        };
+
+        load();
+      });
+    },
+    requestWithoutLoading: (url, options = {}, maxRetry = 2, timeout = 5000) => {
+      return new Promise((resolve, reject) => {
+        let retryCount = 0;
+
+        const tryRequest = () => {
+          let timedOut = false;
+          const timer = setTimeout(() => {
+            timedOut = true;
+            if (++retryCount > maxRetry) reject('timeout');
+            else tryRequest();
+          }, timeout);
+
+          fetch(url, options)
+            .then(resp => {
+              clearTimeout(timer);
+              if (!resp.ok) throw new Error('bad response');
+              resolve(resp);
+            })
+            .catch(err => {
+              clearTimeout(timer);
+              if (++retryCount > maxRetry) reject(err);
+              else setTimeout(tryRequest, 500);
+            });
+        };
+
+        tryRequest();
+      });
+    },
+    /********************** requestAnimationFrame ********************************/
+    // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+    // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+    requestAnimationFrame: (fn) => {
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+      }
+      window.requestAnimationFrame(fn)
+    },
+    dark: {},
+  };
+
+  // utils.dark.mode 当前模式 dark or light
+  // utils.dark.toggle() 暗黑模式触发器
+  // utils.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  utils.dark.method = {
+    toggle: new RunItem(),
+  };
+  utils.dark = Object.assign(utils.dark, {
+    push: utils.dark.method.toggle.push,
+  });
+</script>
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+<script async src="https://gcore.jsdelivr.net/npm/vanilla-lazyload@19.1/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+    callback_loaded: (el) => {
+      el.classList.add('loaded');
+      const wrapper = el.closest('.lazy-box');
+      const icon = wrapper?.querySelector('.lazy-icon');
+      if (icon) icon.remove();
+    }
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+
+  window.wrapLazyloadImages = (container) => {
+    if (typeof container === 'string') {
+      container = document.querySelector(container);
+    }
+    if (!container) return;
+    
+    const images = container.querySelectorAll('img');
+    images.forEach((img) => {
+      if (img.classList.contains('lazy')) return;
+
+      const src = img.getAttribute('src');
+      if (!src) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lazy-box';
+
+      const newImg = img.cloneNode();
+      newImg.removeAttribute('src');
+      newImg.setAttribute('data-src', src);
+      newImg.classList.add('lazy');
+
+      const icon = document.createElement('div');
+      icon.className = 'lazy-icon';
+      if (def.loading) {
+        icon.style.backgroundImage = `url("${def.loading}")`;
+      }
+
+      wrapper.appendChild(newImg);
+      wrapper.appendChild(icon);
+
+      img.replaceWith(wrapper);
+    });
+
+    // 通知 LazyLoad 更新
+    if (window.lazyLoadInstance?.update) {
+      window.lazyLoadInstance.update();
+    }
+  }
+  
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.33.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    // applyThemeToGiscus(theme)
+  }
+
+  // FIXME: 这会导致无法使用 preferred_color_scheme 以外的主题
+  const applyThemeToGiscus = (theme) => {
+    // theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+    utils.dark.mode = newTheme === 'auto' ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : newTheme;
+    utils.dark.method.toggle.start();
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    } else {
+      utils.dark.mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    utils.dark.method.toggle.start();
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"rating":{"js":"/js/services/rating.js","api":"https://star-vote.xaox.cc/api/rating"},"vote":{"js":"/js/services/vote.js","api":"https://star-vote.xaox.cc/api/vote"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"friends_and_posts":{"js":"/js/services/friends_and_posts.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"},"contributors":{"edit_this_page":{"_posts/":null,"wiki/stellar/":"https://github.com/xaoxuu/hexo-theme-stellar-docs/blob/main/"},"js":"/js/services/contributors.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else if (id == 'voice') {
+        ctx.voiceAudios = document.querySelectorAll('.voice>audio');
+        if (ctx.voiceAudios?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            createVoiceDom(ctx.voiceAudios);
+          });
+        }
+      } else if (id == 'video') {
+        ctx.videos = document.querySelectorAll('.video>video');
+        if (ctx.videos?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            videoEvents(ctx.videos);
+          });
+        }
+      } else if (id == 'download-file') {
+        ctx.files = document.querySelectorAll('.file');
+        if (ctx.files?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            downloadFileEvent(ctx.files);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+
+    // chat iphone time
+    let phoneTimes = document.querySelectorAll('.chat .status-bar .time');
+
+    if (phoneTimes.length > 0) {
+      NowTime();
+      var date = new Date();
+      var sec = date.getSeconds();
+      var firstAdjustInterval = setInterval(firstAdjustTime, 1000 * (60 - sec));
+    }
+
+    function firstAdjustTime() {
+      NowTime();
+      clearInterval(firstAdjustInterval);
+      setInterval(NowTime, 1000 * 60);
+    }
+
+    function NowTime() {
+      for (let i = 0; i < phoneTimes.length; ++i) {
+        var timeSpan = phoneTimes[i];
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        timeSpan.innerHTML = check(hour) + ":" + check(min);
+      }
+    };
+
+    function check(val) {
+      if (val < 10) {
+        return ("0" + val);
+      }
+      return (val);
+    }
+
+    // chat quote
+    const chat_quote_obverser = new IntersectionObserver((entries, observer) => {
+      entries.filter((entry) => { return entry.isIntersecting }).sort((a, b) => a.intersectionRect.y !== b.intersectionRect.y ? a.intersectionRect.y - b.intersectionRect.y : a.intersectionRect.x - b.intersectionRect.x).forEach((entry, index) => {
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('quote-blink');
+            setTimeout(() => {
+              entry.target.classList.remove('quote-blink');
+            }, 1000);
+          }, Math.max(100, 16) * (index + 1));
+        });
+    });
+
+    var chatQuotes = document.querySelectorAll(".chat .talk .quote");
+    chatQuotes.forEach((quote) => {
+      quote.addEventListener('click', function () {
+        var chatCellDom = document.getElementById("quote-" + quote.getAttribute("quotedCellTag"));
+        if (chatCellDom) {
+          var chatDiv = chatCellDom.parentElement;
+          var mid = chatDiv.clientHeight / 2;
+          var offsetTop = chatCellDom.offsetTop;
+          if (offsetTop > mid - chatCellDom.clientHeight / 2) {
+            chatDiv.scrollTo({
+              top: chatCellDom.offsetTop - mid + chatCellDom.clientHeight / 2,
+              behavior: "smooth"
+            });
+          } else {
+            chatDiv.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+          chat_quote_obverser.observe(chatCellDom);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://gcore.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://gcore.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error), .with-fancybox .atk-content img:not([atk-emoticon])';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const memos = document.getElementsByClassName('ds-memos');
+    if (memos != undefined && memos.length > 0) {
+      needFancybox = true;
+    }
+    const fancybox = document.getElementsByClassName('with-fancybox');
+    if (fancybox != undefined && fancybox.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
